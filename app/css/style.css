@@ -1,16 +1,3 @@
-html, body {
-    height: 100%;
-}
-
-body {
-    display: flex;
-    flex-direction: column;
-}
-
-.grow {
-    flex-grow: 1;
-}
-
 open {
     text-decoration: dotted underline;
     text-decoration-color: aqua;
@@ -60,10 +47,6 @@ a {
 
 #text-output {
     cursor: default;
-}
-
-#text-input, #text-output {
-    height: 50px;
 }
 
 #kalip-output {
