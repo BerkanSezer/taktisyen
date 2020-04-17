@@ -1,0 +1,74 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.grow {
+    flex-grow: 1;
+}
+
+open {
+    text-decoration: dotted underline;
+    text-decoration-color: aqua;
+}
+
+closed {
+    text-decoration: dotted underline;
+    text-decoration-color: gold;
+}
+
+medli {
+    text-decoration: dotted underline;
+    text-decoration-color: crimson;
+}
+
+.errored {
+    border-color: darkred;
+    border-style: dashed;
+    border-width: 3px;
+    cursor: pointer;
+}
+
+separator::after {
+    content: "/";
+    font-family: monospace;
+    color: gray;
+}
+
+separator {
+}
+
+label, a {
+    user-select: none;
+}
+
+a {
+    cursor: pointer;
+}
+
+#text-input {
+    width: 100%;
+    border: 0;
+    resize: none;
+    outline: 0;
+    overflow: hidden;
+}
+
+#text-output {
+    cursor: default;
+}
+
+#text-input, #text-output {
+    height: 50px;
+}
+
+#kalip-output {
+    font-family: monospace;
+    letter-spacing: 0.1em;
+    font-size: 1.2em;
+    cursor: default;
+}

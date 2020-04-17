@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'">
+    <meta http-equiv="X-Content-Security-Policy" content="script-src 'self' 'unsafe-inline'">
+    <title>Aruzcu</title>
+
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="../node_modules/popper.js/dist/popper.min.js"></script>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../node_modules/underscore/underscore-min.js"></script>
+
+</head>
+<body>
+
+<input type="file" id="file-input" accept="text/plain" hidden aria-hidden="true">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand">Aruzcu</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" id="new-button">Sil</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="save-button">Kaydet</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="open-button">Aç</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="modal" data-target="#settingsModal">Ayarlar</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+<div class="modal fade" tabindex="-1" role="dialog" id="settingsModal" aria-labelledby="settingsModalTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="settingsModalTitle">Ayarlar</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="medli-checkbox" checked>
+                    <label class="form-check-label" for="medli-checkbox">Medli hece</label>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label for="stop-input">Hece ayıran karakterler</label>
+                    <input type="text" id="stop-input" class="form-control">
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label for="filename-input">Dosya ismi</label>
+                    <input type="text" id="filename-input" class="form-control">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col mt-2">
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label for="kalip-input">Kalıp Örneği</label>
+                <input type="text" id="kalip-input" class="form-control">
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label for="kalip-output">Kalıp Analizi</label>
+                <div id="kalip-output" class="form-control">
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row grow">
+        <div class="col-6">
+            <div class="form-group">
+                <label for="text-input">Metin Girişi</label>
+                <div>
+                    <textarea id="text-input" rows="15" placeholder="Bütün dünyâya küskündüm, dün akşam pek bunalmıştım."></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label for="text-output">Metin Analizi</label>
+                <div id="text-output">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="js/hecele.js"></script>
+<script src="js/vanilla.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+{
+  "name": "aruzcu-electron",
+  "version": "1.0.0",
+  "description": "Türkçe hece analizcisi",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "author": "Emre Özcan",
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "^4.4.1",
+    "jquery": "^3.4.1",
+    "popper.js": "^1.16.1",
+    "underscore": "^1.10.2"
+  },
+  "devDependencies": {
+    "electron-builder": "^22.5.1",
+    "electron": "^8.2.2"
+  },
+  "build": {
+    "appId": "emreozcan.aruzcu",
+    "productName": "Aruzcu",
+    "copyright": "© 2020 Emre Özcan",
+    "buildVersion": "1.0.0",
+    "win": {
+      "target": "portable"
+    }
+  }
+}
