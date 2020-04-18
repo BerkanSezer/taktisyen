@@ -18,17 +18,17 @@ const hece_human_notation = {
 }
 let kalip_data = [];
 
-/*
+let medliHece;
+let lastSyllableClosed;
 
-kalip_data = [
-    2, 2, 1, 1, 2, // - / - / . / . / 2 /
-];
+const _default_metadata = {
+    sample: "", // Kalıp sample
+    stop: _default_stop_characters,
+    medli: true,
+    lastClosed: true, // Last syllable of lines are assumed closed.
+}
 
-1 = /./; 2 = /-/; 3 = /-./
-
- */
-
-let medliHece = true;
+import_metadata({});
 
 kalip_in.on("input", function () {
     kalip_out.empty();
@@ -45,7 +45,7 @@ kalip_in.on("input", function () {
             }
 
             let hece_type;
-            if (hece == kalip_heceler.length - 1) {
+            if (hece == kalip_heceler.length - 1 && lastSyllableClosed) {
                 hece_type = 2;
             } else {
                 hece_type = is_open(kalip_heceler[hece], {ignoreOverride: true, medli: medliHece});
@@ -96,7 +96,7 @@ text_in.on("input", function () {
                 }
 
                 let hece_type;
-                if (hece == line_heceler.length - 1) {
+                if (hece == line_heceler.length - 1 && lastSyllableClosed) {
                     hece_type = 2;
                 } else {
                     hece_type = is_open(line_heceler[hece], {ignoreOverride: false, medli: medliHece});
@@ -122,20 +122,22 @@ text_in.on("input", function () {
         lastCharIndex += 1;
     }
 
-    console.log(text_out.height());
     text_in.height(Math.max(text_out.height(), 120));
 });
+
+function export_metadata () {
+    return {
+        sample: kalip_in.val(),
+        stop: stop_characters,
+        medli: medliHece,
+        lastClosed: lastSyllableClosed,
+    }
+}
 
 $("#save-button").on("click", function () {
     let textToWrite = "";
 
-    let _data = btoa(unescape(encodeURIComponent(JSON.stringify(
-        {
-            kalip_sample: kalip_in.val(),
-            stop: stop_characters,
-            medli: medliHece,
-        })))
-    );
+    let _data = btoa(unescape(encodeURIComponent(JSON.stringify(export_metadata()))));
 
     textToWrite = textToWrite.concat("[:Aruzcu:", _data, ":]\n\n")
 
@@ -164,6 +166,22 @@ $("#open-button").on("click", function () {
     $("#file-input").trigger("click").val("");
 });
 
+function import_metadata (md) {
+    let use_metadata = {..._default_metadata, ...md};
+    kalip_in.val(use_metadata.kalip_sample);
+    stop_characters = use_metadata.stop;
+    $("#stop-input").val(stop_characters);
+    medliHece = use_metadata.medli;
+    $("#medli-checkbox").prop("checked", medliHece);
+    lastSyllableClosed = use_metadata.lastClosed;
+
+    if (use_metadata.sample.length !== 0) {
+        kalip_in.trigger("input");
+    } else {
+        text_in.trigger("input");
+    }
+}
+
 $("#file-input").on("input", function () {
     let file = this.files[0];
     if (!file) {
@@ -178,31 +196,17 @@ $("#file-input").on("input", function () {
         if (contents.startsWith("[:Aruzcu:")) {
             let header = contents.split("\n")[0];
             let encoded_metadata = header.split(":")[2];
-            header_length = header.length+2; // There are two newline characters after the header
+            header_length = header.length + 2; // There are two newline characters after the header
             // [:Aruzcu:DATA:]
             metadata = JSON.parse(decodeURIComponent(escape(atob(encoded_metadata))))
         } else {
-            metadata = {
-                kalip_sample: "",
-                stop: _default_stop_characters,
-                medli: true,
-            }
+            metadata = _default_metadata;
         }
-
-        kalip_in.val(metadata.kalip_sample);
-        stop_characters = metadata.stop;
-        $("#stop-input").val(stop_characters);
-        medliHece = metadata.medli;
-        $("#medli-checkbox").prop("checked", medliHece);
-        $("#filename-input").val(file.name);
 
         text_in.val(contents.slice(header_length));
-        if (metadata.kalip_sample.length !== 0) {
-            kalip_in.trigger("input");
-        } else {
-            text_in.trigger("input");
-        }
+        $("#filename-input").val(file.name);
 
+        import_metadata(metadata);
     };
     reader.readAsText(file);
 });
@@ -223,22 +227,27 @@ function destroyClickedElement(event) {
     document.body.removeChild(event.target);
 }
 
-$("#medli-checkbox").on("change", function () {
-    medliHece = $(this).prop("checked");
+function update_text_analysis() {
     if (kalip_in.val().length === 0) {
         text_in.trigger("input");
     } else {
         kalip_in.trigger("input");
     }
+}
+
+$("#last-syllable-checkbox").on("change", function () {
+    lastSyllableClosed = $(this).prop("checked");
+    update_text_analysis();
+});
+
+$("#medli-checkbox").on("change", function () {
+    medliHece = $(this).prop("checked");
+    update_text_analysis();
 });
 
 $("#stop-input").val(stop_characters).on("input", function () {
     stop_characters = $(this).val().replace(/[\[\]]/g, "");
-    if (kalip_in.val().length === 0) {
-        text_in.trigger("input");
-    } else {
-        kalip_in.trigger("input");
-    }
+    update_text_analysis();
     this.value = stop_characters;
 });
 
@@ -247,13 +256,12 @@ $("#filename-input").val(_default_filename);
 function fix_hece(hece_code) {
     let _info = hece_code.split(":");
     if (_info[0] !== "9") {
-        console.log("9 magic not present.")
+        console.warn("9 magic not present. Trying to fix anyway.")
     }
     let lastChar = _info[1];
     let text = text_in.val();
-    if (!alphabet.includes(text[lastChar-1])) {
-        lastChar = previous_letter(text, lastChar)+1;
-        console.log(lastChar, _info[1]);
+    if (!alphabet.includes(text[lastChar - 1])) {
+        lastChar = previous_letter(text, lastChar) + 1;
     }
 
     let heceType = _info[2];
