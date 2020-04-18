@@ -174,6 +174,7 @@ function import_metadata (md) {
     medliHece = use_metadata.medli;
     $("#medli-checkbox").prop("checked", medliHece);
     lastSyllableClosed = use_metadata.lastClosed;
+    $("#last-syllable-checkbox").prop("checked", lastSyllableClosed);
 
     if (use_metadata.sample.length !== 0) {
         kalip_in.trigger("input");
@@ -212,14 +213,9 @@ $("#file-input").on("input", function () {
 });
 
 $("#new-button").on("click", function () {
-    kalip_in.val("").trigger("input");
-    stop_characters = _default_stop_characters;
-    $("#stop-input").val(stop_characters);
-    medliHece = true;
-    $("#medli-checkbox").prop("checked", medliHece);
-    text_in.val("").trigger("input");
-    $("#text-output").empty();
     $("#filename-input").val(_default_filename);
+    import_metadata({});
+    update_text_analysis();
 });
 
 function destroyClickedElement(event) {
