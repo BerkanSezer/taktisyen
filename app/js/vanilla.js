@@ -14,7 +14,7 @@ const hece_correspondence = {
 const hece_human_notation = {
     1: ".",
     2: "-",
-    3: ".-",
+    3: "-.",
 }
 let kalip_data = [];
 
