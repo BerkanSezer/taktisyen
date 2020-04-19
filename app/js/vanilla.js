@@ -139,7 +139,7 @@ $("#save-button").on("click", function () {
 
     let _data = btoa(unescape(encodeURIComponent(JSON.stringify(export_metadata()))));
 
-    textToWrite = textToWrite.concat("[:Aruzcu:", _data, ":]\n\n")
+    textToWrite = textToWrite.concat("[:Taktisyen:", _data, ":]\n\n")
 
     textToWrite = textToWrite.concat(document.getElementById('text-input').value);
     let textFileAsBlob = new Blob([textToWrite], {type: 'text/plain'});
@@ -194,11 +194,11 @@ $("#file-input").on("input", function () {
         let metadata;
         let header_length = 0;
 
-        if (contents.startsWith("[:Aruzcu:")) {
+        if (contents.startsWith("[:Taktisyen:")) {
             let header = contents.split("\n")[0];
             let encoded_metadata = header.split(":")[2];
             header_length = header.length + 2; // There are two newline characters after the header
-            // [:Aruzcu:DATA:]
+            // [:Taktisyen:DATA:]
             metadata = JSON.parse(decodeURIComponent(escape(atob(encoded_metadata))))
         } else {
             metadata = _default_metadata;

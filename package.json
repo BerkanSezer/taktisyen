@@ -21,8 +21,8 @@
     "electron": "^8.2.2"
   },
   "build": {
-    "appId": "emreozcan.aruzcu",
-    "productName": "Aruzcu",
+    "appId": "emreozcan.taktisyen",
+    "productName": "Taktisyen",
     "copyright": "© 2020 Emre Özcan",
     "buildVersion": "1.0.0",
     "win": {
