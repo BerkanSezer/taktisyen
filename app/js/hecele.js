@@ -1,32 +1,32 @@
 // Implementation of Emre's algorithm for syllabication of Turkish expressions.
 
-const _default_stop_characters = "-,;:.?!()"; // Used when loading files without metadata
-const _default_filename = "Taktisyen Şiiri.txt";
-const short_vowels = "aeıioöuüAEIİOÖUÜ";
-const long_vowels = "âêîôûÂÊÎÔÛ";
-const vowels = short_vowels.concat(long_vowels);
+const _defaultStopCharacters = "-,;:.?!()"; // Used when loading files without metadata
+const _defaultFilename = "Taktisyen Şiiri.txt";
+const shortVowels = "aeıioöuüAEIİOÖUÜ";
+const longVowels = "âêîôûÂÊÎÔÛ";
+const vowels = shortVowels.concat(longVowels);
 const consonants = "bcçdfgğhjklmnprsştvyzqwxBCÇDFGĞHJKLMNPRSŞTVYZQWX";
 const alphabet = vowels.concat(consonants);
-let stop_characters = _default_stop_characters
+let stopCharacters = _defaultStopCharacters;
 
-function is_vowel(letter) {
+function isVowel(letter) {
     return vowels.includes(letter);
 }
 
-function next_vowel(text, cur) {
+function nextVowel(text, cur) {
     let index = cur;
     while (true) {
         if (index + 1 >= text.length) {
             return cur;
         }
-        if (is_vowel(text[index + 1])) {
+        if (isVowel(text[index + 1])) {
             return index + 1;
         }
         index += 1;
     }
 }
 
-function are_there_letters_between(text, start, end) {
+function areThereLettersBetween(text, start, end) {
     let slice = text.slice(start + 1, end);
     for (const character of slice) {
         if (alphabet.includes(character)) {
@@ -36,10 +36,10 @@ function are_there_letters_between(text, start, end) {
     return false;
 }
 
-function previous_letter(text, end) {
+function previousLetter(text, end) {
     let index = end - 1;
     while (true) {
-        if (alphabet.concat(stop_characters).includes(text[index])) {
+        if (alphabet.concat(stopCharacters).includes(text[index])) {
             break;
         }
         index -= 1;
@@ -51,56 +51,32 @@ function previous_letter(text, end) {
 }
 
 function hecele(text) {
-    let current_vowel_index = next_vowel(text, -1);
+    let currentVowelIndex = nextVowel(text, -1);
     let syllables = [];
-    let last_syllable_index = 0;
+    let lastSyllableIndex = 0;
     while (true) {
-        let _return_until;
-        let next_vowel_index = next_vowel(text, current_vowel_index);
-        if (next_vowel_index === current_vowel_index) { // This is the last vowel
-            syllables.push(text.slice(last_syllable_index));
+        let _returnUntil;
+        let nextVowelIndex = nextVowel(text, currentVowelIndex);
+        if (nextVowelIndex === currentVowelIndex) { // This is the last vowel
+            syllables.push(text.slice(lastSyllableIndex));
             break;
-        } else if (!are_there_letters_between(text, current_vowel_index, next_vowel_index)) { // There are two neighbor vowels (sa/at)
-            _return_until = next_vowel_index;
+        } else if (!areThereLettersBetween(text, currentVowelIndex, nextVowelIndex)) { // There are two neighbor vowels (sa/at)
+            _returnUntil = nextVowelIndex;
         } else {
-            _return_until = previous_letter(text, next_vowel_index);
+            _returnUntil = previousLetter(text, nextVowelIndex);
         }
 
-        syllables.push(text.slice(last_syllable_index, _return_until));
-        last_syllable_index = _return_until;
+        syllables.push(text.slice(lastSyllableIndex, _returnUntil));
+        lastSyllableIndex = _returnUntil;
 
-        current_vowel_index = next_vowel_index;
+        currentVowelIndex = nextVowelIndex;
     }
 
     return syllables;
 }
 
-function hecele_index(text) {
-    let current_vowel_index = next_vowel(text, -1);
-    let syllables = [];
-    let last_syllable_index = 0;
-    while (true) {
-        let _return_until;
-        let next_vowel_index = next_vowel(text, current_vowel_index);
-        if (next_vowel_index === current_vowel_index) {
-            syllables.push([last_syllable_index, text.length]);
-            break;
-        } else if (!are_there_letters_between(text, current_vowel_index, next_vowel_index)) {
-            _return_until = next_vowel_index;
-        } else {
-            _return_until = previous_letter(text, next_vowel_index);
-        }
-
-        syllables.push([last_syllable_index, _return_until]);
-
-        current_vowel_index = next_vowel_index;
-    }
-
-    return syllables;
-}
-
-function is_open(syllable, options) {
-    let letters = get_letters(syllable);
+function isOpen(syllable, options) {
+    let letters = getLetters(syllable);
 
     if (!options.ignoreOverride) {
         if (syllable.includes("[1]")) {
@@ -115,34 +91,12 @@ function is_open(syllable, options) {
     }
 
     // Medli (-.) (fr = 3)
-    if (!options.medli) {}
-    else if (letters.length === 2) {
-        if (long_vowels.includes(letters[0]) &&
-            consonants.includes(letters[1])) {
-            return 3;
-        }
-    } else if (letters.length === 3) {
-        if (consonants.includes(letters[0]) &&
-            long_vowels.includes(letters[1]) &&
-            consonants.includes(letters[2])) {
-            return 3;
-        } else if (short_vowels.includes(letters[0]) &&
-            consonants.includes(letters[1]) &&
-            consonants.includes(letters[2])) {
-            return 3;
-        }
-    } else if (letters.length === 4) {
-        if (consonants.includes(letters[0]) &&
-            short_vowels.includes(letters[1]) &&
-            consonants.includes(letters[2]) &&
-            consonants.includes(letters[3])
-        ) {
-            return 3;
-        }
+    if (options.medli && isMedli(letters)) {
+        return true;
     }
 
     // Açık (.) (fr = 1)
-    if (short_vowels.includes(letters[previous_letter(letters, letters.length)])) {
+    if (shortVowels.includes(letters[previousLetter(letters, letters.length)])) {
         return 1;
     }
 
@@ -150,7 +104,35 @@ function is_open(syllable, options) {
     return 2;
 }
 
-function get_letters(syllable) {
+function isMedli(input) {
+    if (input.length === 2) {
+        if (longVowels.includes(input[0]) &&
+            consonants.includes(input[1])) {
+            return true;
+        }
+    } else if (input.length === 3) {
+        if (consonants.includes(input[0]) &&
+            longVowels.includes(input[1]) &&
+            consonants.includes(input[2])) {
+            return true;
+        } else if (shortVowels.includes(input[0]) &&
+            consonants.includes(input[1]) &&
+            consonants.includes(input[2])) {
+            return true;
+        }
+    } else if (input.length === 4) {
+        if (consonants.includes(input[0]) &&
+            shortVowels.includes(input[1]) &&
+            consonants.includes(input[2]) &&
+            consonants.includes(input[3])
+        ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function getLetters(syllable) {
     let letters = "";
     for (const char of syllable) {
         if (alphabet.includes(char)) {

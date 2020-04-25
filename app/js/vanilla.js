@@ -1,148 +1,148 @@
-let kalip_out = $("#kalip-output");
-let text_out = $("#text-output");
+let kalipOut = $("#kalip-output");
+let textOut = $("#text-output");
 
-let kalip_in = $("#kalip-input");
-let text_in = $("#text-input");
+let kalipIn = $("#kalip-input");
+let textIn = $("#text-input");
 
-const override_regex = /\[[0123]\]/g;
+const overrideRegex = /\[[0123]\]/g;
 
-const hece_correspondence = {
+const heceCorrespondence = {
     1: "open",
     2: "closed",
     3: "medli",
 }
-const hece_human_notation = {
+const heceHumanNotation = {
     1: ".",
     2: "-",
     3: "-.",
 }
-let kalip_data = [];
+let kalipData = [];
 
 let medliHece;
 let lastSyllableClosed;
 
-const _default_metadata = {
+const _defaultMetadata = {
     sample: "", // Kalıp sample
-    stop: _default_stop_characters,
+    stop: _defaultStopCharacters,
     medli: true,
     lastClosed: true, // Last syllable of lines are assumed closed.
 }
 
-import_metadata({});
+importMetadata({});
 
-kalip_in.on("input", function () {
-    kalip_out.empty();
-    kalip_data = [];
+kalipIn.on("input", function () {
+    kalipOut.empty();
+    kalipData = [];
 
-    let kalip_pure = this.value;
-    if (kalip_pure.length === 0) {
+    let pureKalip = this.value;
+    if (pureKalip.length === 0) {
         return;
     } else {
-        let kalip_heceler = hecele(kalip_pure);
-        for (const hece in kalip_heceler) {
-            if (kalip_heceler[hece].length === 0) {
+        let kalipHeceler = hecele(pureKalip);
+        for (const hece in kalipHeceler) {
+            if (kalipHeceler[hece].length === 0) {
                 continue;
             }
 
-            let hece_type;
-            if (hece == kalip_heceler.length - 1 && lastSyllableClosed) {
-                hece_type = 2;
+            let heceType;
+            if (hece == kalipHeceler.length - 1 && lastSyllableClosed) {
+                heceType = 2;
             } else {
-                hece_type = is_open(kalip_heceler[hece], {ignoreOverride: true, medli: medliHece});
+                heceType = isOpen(kalipHeceler[hece], {ignoreOverride: true, medli: medliHece});
             }
-            kalip_data.push(hece_type);
+            kalipData.push(heceType);
 
-            let new_element = document.createElement(hece_correspondence[hece_type]);
-            //let separator_element = document.createElement("separator");
-            new_element.innerText = hece_human_notation[hece_type];
-            kalip_out.append(new_element/*, separator_element*/);
+            let newElement = document.createElement(heceCorrespondence[heceType]);
+            //let separatorElement = document.createElement("separator");
+            newElement.innerText = heceHumanNotation[heceType];
+            kalipOut.append(newElement/*, separatorElement*/);
         }
     }
 
-    text_in.trigger("input");
+    textIn.trigger("input");
 });
 
-text_in.on("input", function () {
-    text_out.empty();
-    let text_pure = this.value;
+textIn.on("input", function () {
+    textOut.empty();
+    let pureText = this.value;
 
     let lastCharIndex = 0;
 
-    let lines = text_pure.split("\n");
+    let lines = pureText.split("\n");
     for (const line of lines) {
         if (line.length === 0) {
-            text_out.append($("<br>"));
+            textOut.append($("<br>"));
         } else if (line.startsWith("[0]")) {
-            text_out.append($("<span></span>").text(line.replace(override_regex, "")), "<br>");
+            textOut.append($("<span></span>").text(line.replace(overrideRegex, "")), "<br>");
             lastCharIndex += line.length;
         } else {
-            let empty_kalip_data = _.isEqual(kalip_data, []);
-            if (empty_kalip_data && lines.length > 1) {
-                kalip_in.val(line);
-                kalip_in.trigger("input");
+            let emptyKalipData = _.isEqual(kalipData, []);
+            if (emptyKalipData && lines.length > 1) {
+                kalipIn.val(line);
+                kalipIn.trigger("input");
                 return;
-                // When we trigger input on kalip_in, kalip_in triggers input on text_in and thus this function
+                // When we trigger input on kalipIn, kalipIn triggers input on textIn and thus this function
                 // is called and text gets analyzed and printed to output. We don't need to do this again. Just stop.
             }
 
-            let paragraph_element = $("<span></span>");
+            let paragraphElement = $("<span></span>");
 
-            let line_heceler = hecele(line);
-            for (const hece in line_heceler) {
-                lastCharIndex += line_heceler[hece].length;
+            let lineHeceler = hecele(line);
+            for (const hece in lineHeceler) {
+                lastCharIndex += lineHeceler[hece].length;
 
-                if (line_heceler[hece].length === 0) {
+                if (lineHeceler[hece].length === 0) {
                     continue;
                 }
 
-                let hece_type;
-                if (hece == line_heceler.length - 1 && lastSyllableClosed) {
-                    hece_type = 2;
+                let heceType;
+                if (hece == lineHeceler.length - 1 && lastSyllableClosed) {
+                    heceType = 2;
                 } else {
-                    hece_type = is_open(line_heceler[hece], {ignoreOverride: false, medli: medliHece});
+                    heceType = isOpen(lineHeceler[hece], {ignoreOverride: false, medli: medliHece});
                 }
 
-                let new_element = $(document.createElement(hece_correspondence[hece_type]));
-                let separator_element = document.createElement("separator");
-                new_element.text(line_heceler[hece].replace(override_regex, ""));
-                if (!empty_kalip_data && kalip_data[hece] !== hece_type && !line_heceler[hece].endsWith("[0]")) {
-                    new_element.addClass("errored");
-                    new_element.on("click", function () {
-                        fix_hece(new_element.attr("id"));
+                let newElement = $(document.createElement(heceCorrespondence[heceType]));
+                let separatorElement = document.createElement("separator");
+                newElement.text(lineHeceler[hece].replace(overrideRegex, ""));
+                if (!emptyKalipData && kalipData[hece] !== heceType && !lineHeceler[hece].endsWith("[0]")) {
+                    newElement.addClass("errored");
+                    newElement.on("click", function () {
+                        fixHece(newElement.attr("id"));
                     });
                 }
-                new_element.attr("id", "9:".concat((lastCharIndex).toString(), ":", hece));
-                paragraph_element.append(new_element, separator_element);
+                newElement.attr("id", "9:".concat((lastCharIndex).toString(), ":", hece));
+                paragraphElement.append(newElement, separatorElement);
 
             }
-            text_out.append(paragraph_element, $("<br>"));
+            textOut.append(paragraphElement, $("<br>"));
         }
 
 
         lastCharIndex += 1;
     }
 
-    text_in.height(Math.max(text_out.height(), 120));
+    textIn.height(Math.max(textOut.height(), 120));
 });
 
-function export_metadata () {
+function exportMetadata () {
     return {
-        sample: kalip_in.val(),
-        stop: stop_characters,
+        sample: kalipIn.val(),
+        stop: stopCharacters,
         medli: medliHece,
         lastClosed: lastSyllableClosed,
-    }
+    };
 }
 
 $("#save-button").on("click", function () {
     let textToWrite = "";
 
-    let _data = btoa(unescape(encodeURIComponent(JSON.stringify(export_metadata()))));
+    let _data = btoa(unescape(encodeURIComponent(JSON.stringify(exportMetadata()))));
 
-    textToWrite = textToWrite.concat("[:Taktisyen:", _data, ":]\n\n")
+    textToWrite = textToWrite.concat("[:Taktisyen:", _data, ":]\n\n");
 
-    textToWrite = textToWrite.concat(document.getElementById('text-input').value);
-    let textFileAsBlob = new Blob([textToWrite], {type: 'text/plain'});
+    textToWrite = textToWrite.concat(document.getElementById("text-input").value);
+    let textFileAsBlob = new Blob([textToWrite], {type: "text/plain"});
     let fileNameToSaveAs = $("#filename-input").val();
 
     let downloadLink = document.createElement("a");
@@ -166,20 +166,20 @@ $("#open-button").on("click", function () {
     $("#file-input").trigger("click").val("");
 });
 
-function import_metadata (md) {
-    let use_metadata = {..._default_metadata, ...md};
-    kalip_in.val(use_metadata.kalip_sample);
-    stop_characters = use_metadata.stop;
-    $("#stop-input").val(stop_characters);
-    medliHece = use_metadata.medli;
+function importMetadata (md) {
+    let usedMetadata = {..._defaultMetadata, ...md};
+    kalipIn.val(usedMetadata.kalipSample);
+    stopCharacters = usedMetadata.stop;
+    $("#stop-input").val(stopCharacters);
+    medliHece = usedMetadata.medli;
     $("#medli-checkbox").prop("checked", medliHece);
-    lastSyllableClosed = use_metadata.lastClosed;
+    lastSyllableClosed = usedMetadata.lastClosed;
     $("#last-syllable-checkbox").prop("checked", lastSyllableClosed);
 
-    if (use_metadata.sample.length !== 0) {
-        kalip_in.trigger("input");
+    if (usedMetadata.sample.length !== 0) {
+        kalipIn.trigger("input");
     } else {
-        text_in.trigger("input");
+        textIn.trigger("input");
     }
 }
 
@@ -192,30 +192,30 @@ $("#file-input").on("input", function () {
     reader.onload = function (e) {
         let contents = e.target.result;
         let metadata;
-        let header_length = 0;
+        let headerLength = 0;
 
         if (contents.startsWith("[:Taktisyen:")) {
             let header = contents.split("\n")[0];
-            let encoded_metadata = header.split(":")[2];
-            header_length = header.length + 2; // There are two newline characters after the header
+            let encodedMetadata = header.split(":")[2];
+            headerLength = header.length + 2; // There are two newline characters after the header
             // [:Taktisyen:DATA:]
-            metadata = JSON.parse(decodeURIComponent(escape(atob(encoded_metadata))))
+            metadata = JSON.parse(decodeURIComponent(escape(atob(encodedMetadata))));
         } else {
-            metadata = _default_metadata;
+            metadata = _defaultMetadata;
         }
 
-        text_in.val(contents.slice(header_length));
+        textIn.val(contents.slice(headerLength));
         $("#filename-input").val(file.name);
 
-        import_metadata(metadata);
+        importMetadata(metadata);
     };
     reader.readAsText(file);
 });
 
 $("#new-button").on("click", function () {
-    $("#filename-input").val(_default_filename);
-    import_metadata({});
-    update_text_analysis();
+    $("#filename-input").val(_defaultFilename);
+    importMetadata({});
+    updateTextAnalysis();
 });
 
 function destroyClickedElement(event) {
@@ -223,56 +223,53 @@ function destroyClickedElement(event) {
     document.body.removeChild(event.target);
 }
 
-function update_text_analysis() {
-    if (kalip_in.val().length === 0) {
-        text_in.trigger("input");
+function updateTextAnalysis() {
+    if (kalipIn.val().length === 0) {
+        textIn.trigger("input");
     } else {
-        kalip_in.trigger("input");
+        kalipIn.trigger("input");
     }
 }
 
 $("#last-syllable-checkbox").on("change", function () {
     lastSyllableClosed = $(this).prop("checked");
-    update_text_analysis();
+    updateTextAnalysis();
 });
 
 $("#medli-checkbox").on("change", function () {
     medliHece = $(this).prop("checked");
-    update_text_analysis();
+    updateTextAnalysis();
 });
 
-$("#stop-input").val(stop_characters).on("input", function () {
-    stop_characters = $(this).val().replace(/[\[\]]/g, "");
-    update_text_analysis();
-    this.value = stop_characters;
+$("#stop-input").val(stopCharacters).on("input", function () {
+    stopCharacters = $(this).val().replace(/[\[\]]/g, "");
+    updateTextAnalysis();
+    this.value = stopCharacters;
 });
 
-$("#filename-input").val(_default_filename);
+$("#filename-input").val(_defaultFilename);
 
-function fix_hece(hece_code) {
-    let _info = hece_code.split(":");
-    if (_info[0] !== "9") {
-        console.warn("9 magic not present. Trying to fix anyway.")
-    }
+function fixHece(heceCode) {
+    let _info = heceCode.split(":");
     let lastChar = _info[1];
-    let text = text_in.val();
+    let text = textIn.val();
     if (!alphabet.includes(text[lastChar - 1])) {
-        lastChar = previous_letter(text, lastChar) + 1;
+        lastChar = previousLetter(text, lastChar) + 1;
     }
 
     let heceType = _info[2];
-    let requiredType = kalip_data[heceType]
-    if (requiredType === undefined) {
+    let requiredType = kalipData[heceType];
+    if (typeof requiredType === "undefined") {
         requiredType = 0;
     }
-    insert_into_text(lastChar, "[".concat(requiredType, "]"));
-    text_in.trigger("input");
+    insertIntoText(lastChar, "[".concat(requiredType, "]"));
+    textIn.trigger("input");
 }
 
-function insert_into_text(lastCharIndex, whatToInsert) {
-    let text = text_in.val();
+function insertIntoText(lastCharIndex, whatToInsert) {
+    let text = textIn.val();
     let newText;
     newText = text.slice(0, lastCharIndex).concat(whatToInsert, text.slice(lastCharIndex));
 
-    text_in.val(newText);
+    textIn.val(newText);
 }
