@@ -1,6 +1,6 @@
 {
-  "name": "aruzcu-electron",
-  "version": "1.0.0",
+  "name": "taktisyen-electron",
+  "version": "1.0.2",
   "description": "Türkçe hece analizcisi",
   "main": "main.js",
   "scripts": {
@@ -23,10 +23,32 @@
   "build": {
     "appId": "emreozcan.taktisyen",
     "productName": "Taktisyen",
-    "copyright": "© 2020 Emre Özcan",
-    "buildVersion": "1.0.0",
+    "copyright": "© 2020 ${author}",
+    "artifactName": "${productName} Kurulumsuz ${version}.${ext}",
     "win": {
-      "target": "portable"
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        },
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "${productName} Kurucu ${version}.${ext}",
+      "language": "1055"
     }
   }
 }
