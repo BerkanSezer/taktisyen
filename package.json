@@ -4,10 +4,10 @@
   "description": "Türkçe hece analizcisi",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder",
-    "windows": "electron-builder --windows"
+    "start": "sass ./ && electron .",
+    "pack": "sass ./ && electron-builder --dir",
+    "build-this": "sass ./ && electron-builder",
+    "build": "sass ./ && electron-builder -wl"
   },
   "author": "Emre Özcan",
   "license": "MIT",
@@ -18,14 +18,15 @@
     "underscore": "^1.10.2"
   },
   "devDependencies": {
+    "electron": "^8.2.2",
     "electron-builder": "^22.5.1",
-    "electron": "^8.2.2"
+    "sass": "^1.26.10"
   },
   "build": {
     "appId": "emreozcan.taktisyen",
     "productName": "Taktisyen",
     "copyright": "© 2020 ${author}",
-    "artifactName": "${productName} Kurulumsuz ${version}.${ext}",
+    "artifactName": "${productName} ${version} ${os}_${arch}.${ext}",
     "win": {
       "target": [
         {
@@ -44,11 +45,23 @@
         }
       ]
     },
+    "linux": {
+      "target": [
+        {
+          "target": "tar.gz",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ],
+      "category": "Office"
+    },
     "nsis": {
       "oneClick": false,
       "perMachine": false,
       "allowToChangeInstallationDirectory": true,
-      "artifactName": "${productName} Kurucu ${version}.${ext}",
+      "artifactName": "${productName} Kurucu ${version} ${os}_{$arch}.${ext}",
       "language": "1055"
     }
   }

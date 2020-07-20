@@ -86,13 +86,16 @@ function isOpen(syllable, options) {
         } else if (syllable.includes("[3!]")) {
             return 3;
         } else if (syllable.includes("[3]")) {
-            return options.medli;
+            if (options.medli) {
+                return 3;
+            }
+            return 2;
         }
     }
 
     // Medli (-.) (fr = 3)
     if (options.medli && isMedli(letters)) {
-        return true;
+        return 3;
     }
 
     // Açık (.) (fr = 1)
