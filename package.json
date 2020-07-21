@@ -4,65 +4,25 @@
   "description": "Türkçe hece analizcisi",
   "main": "main.js",
   "scripts": {
-    "start": "sass ./ && electron .",
-    "pack": "sass ./ && electron-builder --dir",
-    "build-this": "sass ./ && electron-builder",
-    "build": "sass ./ && electron-builder -wl"
+    "build": "grunt"
   },
   "author": "Emre Özcan",
-  "license": "MIT",
+  "license": "UNLICENSED",
+  "private": true,
   "dependencies": {
-    "bootstrap": "^4.4.1",
-    "jquery": "^3.4.1",
-    "popper.js": "^1.16.1",
-    "underscore": "^1.10.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.10.5",
+    "@babel/preset-env": "^7.10.4",
     "electron": "^8.2.2",
-    "electron-builder": "^22.5.1",
+    "grunt": "^1.2.1",
+    "grunt-babel": "^8.0.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-htmlmin": "^3.1.0",
+    "grunt-contrib-jshint": "^2.1.0",
+    "grunt-contrib-sass": "^1.0.0",
+    "grunt-contrib-uglify": "^5.0.0",
+    "grunt-sass": "^3.1.0",
     "sass": "^1.26.10"
-  },
-  "build": {
-    "appId": "emreozcan.taktisyen",
-    "productName": "Taktisyen",
-    "copyright": "© 2020 ${author}",
-    "artifactName": "${productName} ${version} ${os}_${arch}.${ext}",
-    "win": {
-      "target": [
-        {
-          "target": "portable",
-          "arch": [
-            "x64",
-            "ia32"
-          ]
-        },
-        {
-          "target": "nsis",
-          "arch": [
-            "x64",
-            "ia32"
-          ]
-        }
-      ]
-    },
-    "linux": {
-      "target": [
-        {
-          "target": "tar.gz",
-          "arch": [
-            "x64",
-            "ia32"
-          ]
-        }
-      ],
-      "category": "Office"
-    },
-    "nsis": {
-      "oneClick": false,
-      "perMachine": false,
-      "allowToChangeInstallationDirectory": true,
-      "artifactName": "${productName} Kurucu ${version} ${os}_{$arch}.${ext}",
-      "language": "1055"
-    }
   }
 }

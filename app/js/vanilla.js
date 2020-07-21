@@ -1,21 +1,30 @@
-let kalipOut = $("#kalip-output");
-let textOut = $("#text-output");
+const element_kalipOut = document.getElementById("kalip-output");
+const element_textOut = document.getElementById("text-output");
 
-let kalipIn = $("#kalip-input");
-let textIn = $("#text-input");
+const element_kalipIn = document.getElementById("kalip-input");
+const element_textIn = document.getElementById("text-input");
 
-const overrideRegex = /\[[0123]\]/g;
+const element_fileInput = document.getElementById("file-input");
 
+const element_stopCharacters = document.getElementById("stop-input");
+const element_medliCheckbox = document.getElementById("medli-checkbox");
+const element_lastSyllableCheckbox = document.getElementById("last-syllable-checkbox");
+
+const element_filenameInput = document.getElementById("filename-input");
+const element_appPage = document.querySelector(".page.app");
+
+const overrideRegex = /\[[0123]]/g;
 const heceCorrespondence = {
     1: "open",
     2: "closed",
     3: "medli",
-}
+};
 const heceHumanNotation = {
     1: ".",
     2: "-",
     3: "-.",
-}
+};
+
 let kalipData = [];
 
 let medliHece;
@@ -26,15 +35,105 @@ const _defaultMetadata = {
     stop: _defaultStopCharacters,
     medli: true,
     lastClosed: true, // Last syllable of lines are assumed closed.
+};
+
+
+function importMetadata(md) {
+    let usedMetadata = {... _defaultMetadata, ... md};
+
+    element_kalipIn.value = usedMetadata.sample;
+
+    stopCharacters = usedMetadata.stop;
+    element_stopCharacters.value = stopCharacters;
+
+    medliHece = usedMetadata.medli;
+    element_medliCheckbox.checked = medliHece;
+
+    lastSyllableClosed = usedMetadata.lastClosed;
+    element_lastSyllableCheckbox.checked = lastSyllableClosed;
+
+    if (usedMetadata.sample.length !== 0) {
+        on_input_kalip();
+    } else {
+        on_input_text();
+    }
 }
 
-importMetadata({});
+function exportMetadata() {
+    return {
+        sample: element_kalipIn.value,
+        stop: stopCharacters,
+        medli: medliHece,
+        lastClosed: lastSyllableClosed,
+    };
+}
 
-kalipIn.on("input", function () {
-    kalipOut.empty();
+function destroyClickedElement(event) {
+    document.body.removeChild(event.target);
+}
+
+function updateAnalysis() {
+    on_input_kalip();
+}
+
+const fixHece = function(heceCode) {
+    let _info = heceCode.split(":");
+    let lastChar = _info[1];
+    let text = element_textIn.value;
+    if (!alphabet.includes(text[lastChar - 1])) {
+        lastChar = previousLetter(text, lastChar) + 1;
+    }
+
+    let heceType = _info[2];
+    let requiredType = kalipData[heceType];
+    if (typeof requiredType === "undefined") {
+        requiredType = 0;
+    }
+    insertIntoText(lastChar, "[".concat(requiredType, "]"));
+    on_input_text();
+};
+
+function insertIntoText(lastCharIndex, whatToInsert) {
+    let text = element_textIn.value;
+    let newText;
+    newText = text.slice(0, lastCharIndex).concat(whatToInsert, text.slice(lastCharIndex));
+
+    element_textIn.value = newText;
+}
+
+function on_input_file() {
+    let file = element_fileInput.files[0];
+    if (!file) {
+        return;
+    }
+    let reader = new FileReader();
+    reader.onload = function(e) {
+        let contents = e.target.result;
+        let metadata;
+        let headerLength = 0;
+
+        if (contents.startsWith("[:Taktisyen:")) {
+            let header = contents.split("\n")[0];
+            let encodedMetadata = header.split(":")[2];
+            headerLength = header.length + 2;
+            metadata = JSON.parse(decodeURIComponent(escape(atob(encodedMetadata))));
+        } else {
+            metadata = _defaultMetadata;
+        }
+
+        element_textIn.value = contents.slice(headerLength);
+        element_filenameInput.value = file.name;
+        importMetadata(metadata);
+        switchpage(".page.app");
+    };
+    reader.readAsText(file);
+}
+
+function on_input_kalip() {
+    element_kalipOut.innerHTML = "";
     kalipData = [];
 
-    let pureKalip = this.value;
+    let pureKalip = element_kalipIn.value;
     if (pureKalip.length === 0) {
         return;
     } else {
@@ -52,41 +151,46 @@ kalipIn.on("input", function () {
             }
             kalipData.push(heceType);
 
-            let newElement = document.createElement(heceCorrespondence[heceType]);
-            //let separatorElement = document.createElement("separator");
+            let newElement = document.createElement("span");
+            newElement.className = heceCorrespondence[heceType];
             newElement.innerText = heceHumanNotation[heceType];
-            kalipOut.append(newElement/*, separatorElement*/);
+
+            // let separatorElement = document.createElement("span");
+            // separatorElement.className = "separator";
+
+            element_kalipOut.appendChild(newElement);
+            // element_kalipOut.appendChild(separatorElement);
         }
     }
 
-    textIn.trigger("input");
-});
+    on_input_text();
+}
 
-textIn.on("input", function () {
-    textOut.empty();
-    let pureText = this.value;
-
+function on_input_text() {
+    element_textOut.innerHTML = "";
+    let pureText = element_textIn.value;
     let lastCharIndex = 0;
 
     let lines = pureText.split("\n");
     for (const line of lines) {
         if (line.length === 0) {
-            textOut.append($("<br>"));
+            element_textOut.appendChild(document.createElement("br"));
         } else if (line.startsWith("[0]")) {
-            textOut.append($("<span></span>").text(line.replace(overrideRegex, "")), "<br>");
+            let tempElement = document.createElement("p");
+            tempElement.innerText = line.replace(overrideRegex, "");
+            element_textOut.appendChild(tempElement);
             lastCharIndex += line.length;
         } else {
-            let emptyKalipData = _.isEqual(kalipData, []);
+            let emptyKalipData = !kalipData?.length; // jshint ignore:line
             if (emptyKalipData && lines.length > 1) {
-                kalipIn.val(line);
-                kalipIn.trigger("input");
+                element_kalipIn.value = line;
+                on_input_kalip();
                 return;
                 // When we trigger input on kalipIn, kalipIn triggers input on textIn and thus this function
                 // is called and text gets analyzed and printed to output. We don't need to do this again. Just stop.
             }
 
-            let paragraphElement = $("<span></span>");
-
+            let paragraphElement = document.createElement("p");
             let lineHeceler = hecele(line);
             for (const hece in lineHeceler) {
                 lastCharIndex += lineHeceler[hece].length;
@@ -102,48 +206,54 @@ textIn.on("input", function () {
                     heceType = isOpen(lineHeceler[hece], {ignoreOverride: false, medli: medliHece});
                 }
 
-                let newElement = $(document.createElement(heceCorrespondence[heceType]));
-                let separatorElement = document.createElement("separator");
-                newElement.text(lineHeceler[hece].replace(overrideRegex, ""));
+                let newElement = document.createElement("span");
+                newElement.className = heceCorrespondence[heceType];
+                let separatorElement = document.createElement("span");
+                separatorElement.className = "separator";
+                newElement.innerText = lineHeceler[hece].replace(overrideRegex, "");
                 if (!emptyKalipData && kalipData[hece] !== heceType && !lineHeceler[hece].endsWith("[0]")) {
-                    newElement.addClass("errored");
-                    newElement.on("click", function () {
-                        fixHece(newElement.attr("id"));
-                    });
+                    newElement.classList.add("errored");
+                    const hid = newElement.id;
+                    newElement.onclick = function() {fixHece(hid);};
                 }
-                newElement.attr("id", "9:".concat((lastCharIndex).toString(), ":", hece));
-                paragraphElement.append(newElement, separatorElement);
-
+                newElement.id = "9:".concat((lastCharIndex).toString(), ":", hece);
+                paragraphElement.appendChild(newElement);
+                paragraphElement.appendChild(separatorElement);
             }
-            textOut.append(paragraphElement, $("<br>"));
+            element_textOut.appendChild(paragraphElement);
         }
-
-
         lastCharIndex += 1;
     }
-
-    textIn.height(Math.max(textOut.height(), 120));
-});
-
-function exportMetadata () {
-    return {
-        sample: kalipIn.val(),
-        stop: stopCharacters,
-        medli: medliHece,
-        lastClosed: lastSyllableClosed,
-    };
+    element_textIn.style.height = Math.max(element_textOut.clientHeight, 120).toString().concat("px");
 }
 
-$("#save-button").on("click", function () {
+function switchpage(selector) {
+    for (const page of document.getElementsByClassName("page")) {
+        page.style.display = "none";
+    }
+    document.querySelector(selector).style.display = "";
+}
+
+switchpage(".page.app");
+
+function on_click_new() {
+    element_filenameInput.value = _defaultFilename;
+    element_textIn.value = "";
+    importMetadata({});
+    updateAnalysis();
+    switchpage(".page.app");
+}
+
+function on_click_save() {
     let textToWrite = "";
 
     let _data = btoa(unescape(encodeURIComponent(JSON.stringify(exportMetadata()))));
 
     textToWrite = textToWrite.concat("[:Taktisyen:", _data, ":]\n\n");
+    textToWrite = textToWrite.concat(element_textIn.value);
 
-    textToWrite = textToWrite.concat(document.getElementById("text-input").value);
     let textFileAsBlob = new Blob([textToWrite], {type: "text/plain"});
-    let fileNameToSaveAs = $("#filename-input").val();
+    let fileNameToSaveAs = element_filenameInput.value;
 
     let downloadLink = document.createElement("a");
     downloadLink.download = fileNameToSaveAs;
@@ -160,116 +270,9 @@ $("#save-button").on("click", function () {
     }
 
     downloadLink.click();
-});
-
-$("#open-button").on("click", function () {
-    $("#file-input").trigger("click").val("");
-});
-
-function importMetadata (md) {
-    let usedMetadata = {..._defaultMetadata, ...md};
-    kalipIn.val(usedMetadata.kalipSample);
-    stopCharacters = usedMetadata.stop;
-    $("#stop-input").val(stopCharacters);
-    medliHece = usedMetadata.medli;
-    $("#medli-checkbox").prop("checked", medliHece);
-    lastSyllableClosed = usedMetadata.lastClosed;
-    $("#last-syllable-checkbox").prop("checked", lastSyllableClosed);
-
-    if (usedMetadata.sample.length !== 0) {
-        kalipIn.trigger("input");
-    } else {
-        textIn.trigger("input");
-    }
 }
 
-$("#file-input").on("input", function () {
-    let file = this.files[0];
-    if (!file) {
-        return;
-    }
-    let reader = new FileReader();
-    reader.onload = function (e) {
-        let contents = e.target.result;
-        let metadata;
-        let headerLength = 0;
-
-        if (contents.startsWith("[:Taktisyen:")) {
-            let header = contents.split("\n")[0];
-            let encodedMetadata = header.split(":")[2];
-            headerLength = header.length + 2; // There are two newline characters after the header
-            // [:Taktisyen:DATA:]
-            metadata = JSON.parse(decodeURIComponent(escape(atob(encodedMetadata))));
-        } else {
-            metadata = _defaultMetadata;
-        }
-
-        textIn.val(contents.slice(headerLength));
-        $("#filename-input").val(file.name);
-
-        importMetadata(metadata);
-    };
-    reader.readAsText(file);
-});
-
-$("#new-button").on("click", function () {
-    $("#filename-input").val(_defaultFilename);
-    importMetadata({});
-    updateTextAnalysis();
-});
-
-function destroyClickedElement(event) {
-    // remove the link from the DOM
-    document.body.removeChild(event.target);
-}
-
-function updateTextAnalysis() {
-    if (kalipIn.val().length === 0) {
-        textIn.trigger("input");
-    } else {
-        kalipIn.trigger("input");
-    }
-}
-
-$("#last-syllable-checkbox").on("change", function () {
-    lastSyllableClosed = $(this).prop("checked");
-    updateTextAnalysis();
-});
-
-$("#medli-checkbox").on("change", function () {
-    medliHece = $(this).prop("checked");
-    updateTextAnalysis();
-});
-
-$("#stop-input").val(stopCharacters).on("input", function () {
-    stopCharacters = $(this).val().replace(/[\[\]]/g, "");
-    updateTextAnalysis();
-    this.value = stopCharacters;
-});
-
-$("#filename-input").val(_defaultFilename);
-
-function fixHece(heceCode) {
-    let _info = heceCode.split(":");
-    let lastChar = _info[1];
-    let text = textIn.val();
-    if (!alphabet.includes(text[lastChar - 1])) {
-        lastChar = previousLetter(text, lastChar) + 1;
-    }
-
-    let heceType = _info[2];
-    let requiredType = kalipData[heceType];
-    if (typeof requiredType === "undefined") {
-        requiredType = 0;
-    }
-    insertIntoText(lastChar, "[".concat(requiredType, "]"));
-    textIn.trigger("input");
-}
-
-function insertIntoText(lastCharIndex, whatToInsert) {
-    let text = textIn.val();
-    let newText;
-    newText = text.slice(0, lastCharIndex).concat(whatToInsert, text.slice(lastCharIndex));
-
-    textIn.val(newText);
+function on_click_open() {
+    element_fileInput.click();
+    element_fileInput.value = "";
 }

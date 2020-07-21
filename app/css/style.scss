@@ -1,0 +1,200 @@
+@use "sass:map";
+
+body {
+  font-family: Tahoma, sans-serif;
+  margin: 0;
+}
+
+@mixin holders($holders) {
+  @each $holder in $holders {
+    label[for="#{$holder}"] {
+      grid-area: #{$holder}-label;
+    }
+
+    ##{$holder} {
+      grid-area: #{$holder}-element;
+    }
+  }
+}
+
+@mixin text-input {
+  border-radius: 5px;
+  border: 2px groove lightgray;
+}
+
+@mixin checkbox {
+  display: none;
+  & + label::before {
+    display: inline-block;
+    content: "\00A0";
+    font-size: 100%;
+    line-height: 1em;
+    text-align: center;
+    border: 1px solid gray;
+    border-radius: 0.15em;
+    width: 1em;
+    height: 1em;
+    margin-right: 0.5em;
+  }
+  &:hover + label {
+    $background-color: rgb(220, 220, 220);
+    box-shadow: 0 0 3px 3px $background-color;
+    background-color: $background-color;
+  }
+  &:checked + label::before {
+    content: "\2713";
+  }
+  &:active + label::before {
+    background-color: gray;
+  }
+}
+
+@mixin button {
+  @include text-input;
+  padding: 0.1em 1.8em;
+  background-color: rgb(240, 240, 240);
+  user-select: none;
+  &:hover {
+    background-color: white;
+  }
+  &:active {
+    box-shadow: inset 0 0 8px lightgrey;
+  }
+}
+
+nav.menu {
+  display: flex;
+  background: linear-gradient(to bottom, white, rgb(220, 220, 220));
+
+  a {
+    padding: 0.2em 0.5em;
+
+    $shadow: 0 0 4px rgb(120, 120, 120);
+    &:hover {
+      box-shadow: $shadow;
+      cursor: pointer;
+    }
+
+    &:active {
+      box-shadow: inset $shadow;
+    }
+  }
+}
+
+.page {
+  margin: 0.5em;
+
+  &.app {
+    display: grid;
+    grid-template-areas:
+      "kalip-input-label   kalip-output-label"
+      "kalip-input-element kalip-output-element"
+      "text-input-label    text-output-label"
+      "text-input-element  text-output-element";
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 1em;
+    grid-row-gap: 2px;
+
+    @include holders(("kalip-input", "kalip-output", "text-input", "text-output"));
+    #text-output {
+      align-self: start;
+
+      p {
+        margin: 0;
+      }
+    }
+
+    #text-input {
+      width: 100%;
+      border: 0;
+      resize: none;
+      overflow: hidden;
+      padding: 0;
+    }
+
+    #kalip-output {
+      font-family: monospace;
+      letter-spacing: 0.3em;
+      line-height: 160%;
+      background-color: rgb(240, 240, 240);
+      box-shadow: inset 0 0 4px lightgray;
+    }
+
+    .aruz-output {
+      span.separator {
+        &::after {
+          content: "\25E6";
+          font-family: monospace;
+          color: gray;
+        }
+      }
+
+      $hece-colors: (
+              "open": aqua,
+              "closed": gold,
+              "medli": crimson,
+      );
+
+      @each $type, $color in $hece-colors {
+        span.#{$type} {
+          text-decoration-skip-ink: none;
+          text-decoration: dotted underline;
+          text-decoration-color: $color;
+        }
+      }
+
+      span.errored {
+        border-color: darkred;
+        border-style: dashed;
+        border-width: 3px;
+        cursor: pointer;
+      }
+    }
+
+    .aruz-kalip {
+      @include text-input;
+      font-size: larger;
+    }
+
+    .aruz-text {
+      font-family: Georgia, serif;
+      font-size: large;
+    }
+  }
+
+  &.settings {
+    input[type=text] {
+      width: 75%;
+      float: right;
+      @include text-input;
+    }
+
+    input[type=checkbox] {
+      @include checkbox;
+    }
+
+    label {
+      display: inline;
+      &[data-before-element] {
+        width: 25%;
+      }
+    }
+
+    .row {
+      margin-bottom: 1em;
+    }
+
+    a.button {
+      @include button;
+    }
+  }
+}
+
+label, nav {
+  user-select: none;
+}
+
+:focus {
+  outline: rgba(0, 0, 0, 80) dotted 1px;
+  outline-offset: 2px;
+}
