@@ -1,20 +1,17 @@
 {
-  "name": "taktisyen-electron",
+  "name": "taktisyen",
   "version": "1.0.2",
   "description": "Türkçe hece analizcisi",
-  "main": "main.js",
   "scripts": {
     "build": "grunt"
   },
   "author": "Emre Özcan",
   "license": "UNLICENSED",
   "private": true,
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.10.5",
     "@babel/preset-env": "^7.10.4",
-    "electron": "^8.2.2",
     "grunt": "^1.2.1",
     "grunt-babel": "^8.0.0",
     "grunt-contrib-concat": "^1.0.1",
