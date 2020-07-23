@@ -273,7 +273,6 @@ function on_click_open() {
     element_fileInput.value = "";
 }
 
-element_stopCharacters.value = stopCharacters;
-element_filenameInput.value = _defaultFilename;
+on_click_new();
 
 switchpage(".page.app");
