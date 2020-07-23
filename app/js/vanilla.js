@@ -234,8 +234,6 @@ function switchpage(selector) {
     document.querySelector(selector).style.display = "";
 }
 
-switchpage(".page.app");
-
 function on_click_new() {
     element_filenameInput.value = _defaultFilename;
     element_textIn.value = "";
@@ -276,3 +274,8 @@ function on_click_open() {
     element_fileInput.click();
     element_fileInput.value = "";
 }
+
+element_stopCharacters.value = stopCharacters;
+element_filenameInput.value = _defaultFilename;
+
+switchpage(".page.app");
