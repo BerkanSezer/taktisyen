@@ -11,7 +11,6 @@ const element_medliCheckbox = document.getElementById("medli-checkbox");
 const element_lastSyllableCheckbox = document.getElementById("last-syllable-checkbox");
 
 const element_filenameInput = document.getElementById("filename-input");
-const element_appPage = document.querySelector(".page.app");
 
 const overrideRegex = /\[[0123]]/g;
 const heceCorrespondence = {
@@ -76,7 +75,7 @@ function updateAnalysis() {
     on_input_kalip();
 }
 
-const fixHece = function(heceCode) {
+function fixHece(heceCode) {
     let _info = heceCode.split(":");
     let lastChar = _info[1];
     let text = element_textIn.value;
@@ -91,7 +90,7 @@ const fixHece = function(heceCode) {
     }
     insertIntoText(lastChar, "[".concat(requiredType, "]"));
     on_input_text();
-};
+}
 
 function insertIntoText(lastCharIndex, whatToInsert) {
     let text = element_textIn.value;
@@ -213,10 +212,9 @@ function on_input_text() {
                 newElement.innerText = lineHeceler[hece].replace(overrideRegex, "");
                 if (!emptyKalipData && kalipData[hece] !== heceType && !lineHeceler[hece].endsWith("[0]")) {
                     newElement.classList.add("errored");
-                    const hid = newElement.id;
-                    newElement.onclick = function() {fixHece(hid);};
+                    let hid = `9:${lastCharIndex}:${hece}`;
+                    newElement.setAttribute("onclick", `fixHece("${hid}");`);
                 }
-                newElement.id = "9:".concat((lastCharIndex).toString(), ":", hece);
                 paragraphElement.appendChild(newElement);
                 paragraphElement.appendChild(separatorElement);
             }

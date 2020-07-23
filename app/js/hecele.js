@@ -38,8 +38,9 @@ function areThereLettersBetween(text, start, end) {
 
 function previousLetter(text, end) {
     let index = end - 1;
+    const acceptableStops = alphabet.concat(stopCharacters);
     while (true) {
-        if (alphabet.concat(stopCharacters).includes(text[index])) {
+        if (acceptableStops.includes(text[index])) {
             break;
         }
         index -= 1;

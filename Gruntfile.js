@@ -41,7 +41,7 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    "dist/script.js": "<%= concat.dist.dest %>"
+                    "dist/script.js": "dist/script.js"
                 }
             }
         },
