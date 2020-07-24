@@ -8,7 +8,7 @@ module.exports = function(grunt) {
                 separator: "\n"
             },
             dist: {
-                src: ["app/**/*.js"],
+                src: ["app/js/*.js"],
                 dest: "dist/script.js",
             }
         },
@@ -23,12 +23,11 @@ module.exports = function(grunt) {
             }
         },
         jshint: {
-            files: ["Gruntfile.js", "app/**/*.js"],
+            files: ["Gruntfile.js", "app/js/*.js"],
             options: {
                 esversion: 9,
                 browser: true,
                 globals: {
-                    _: false,
                     escape: false
                 }
             }
@@ -68,6 +67,14 @@ module.exports = function(grunt) {
                     "dist/index.html": "app/index.html"
                 }
             }
+        },
+        zip: {
+            dist: {
+                cwd: "dist",
+                src: ["dist/**"],
+                dest: "dist/.dist.zip",
+                compression: "DEFLATE"
+            }
         }
     });
 
@@ -77,6 +84,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-babel");
     grunt.loadNpmTasks("grunt-contrib-sass");
     grunt.loadNpmTasks("grunt-contrib-htmlmin");
+    grunt.loadNpmTasks("grunt-zip");
 
-    grunt.registerTask("default", ["jshint", "concat", "babel", "uglify", "sass", "htmlmin"]);
+    grunt.registerTask("default", ["jshint", "concat", "babel", "uglify", "sass", "htmlmin", "zip:dist"]);
 };
