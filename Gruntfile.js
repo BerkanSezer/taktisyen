@@ -75,6 +75,9 @@ module.exports = function(grunt) {
                 dest: "dist/.dist.zip",
                 compression: "DEFLATE"
             }
+        },
+        clean: {
+            dist: ["dist"]
         }
     });
 
@@ -85,6 +88,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-sass");
     grunt.loadNpmTasks("grunt-contrib-htmlmin");
     grunt.loadNpmTasks("grunt-zip");
+    grunt.loadNpmTasks("grunt-contrib-clean");
 
-    grunt.registerTask("default", ["jshint", "concat", "babel", "uglify", "sass", "htmlmin", "zip:dist"]);
+    grunt.registerTask("default", ["jshint", "clean:dist", "concat", "babel", "uglify", "sass", "htmlmin", "zip:dist"]);
 };
