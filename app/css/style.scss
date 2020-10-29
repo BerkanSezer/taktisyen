@@ -122,25 +122,23 @@ nav.menu {
     }
 
     .aruz-output {
-      span.separator {
+      span.separator:not(:last-child) {
         &::after {
-          content: "\25E6";
+          content: "\5C";
           font-family: monospace;
           color: gray;
         }
       }
 
       $hece-colors: (
-              "open": aqua,
-              "closed": gold,
-              "medli": crimson,
+              "open": rgba(63, 127, 255, 0.25),
+              "closed": rgba(255, 255, 0, 0.25),
+              "medli": rgba(255, 0, 0, 0.25),
       );
 
       @each $type, $color in $hece-colors {
         span.#{$type} {
-          text-decoration-skip-ink: none;
-          text-decoration: dotted underline;
-          text-decoration-color: $color;
+          background-color: $color;
         }
       }
 
