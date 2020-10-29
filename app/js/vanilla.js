@@ -176,7 +176,7 @@ function on_input_text() {
             element_textOut.appendChild(document.createElement("br"));
         } else if (line.startsWith("[0]")) {
             let tempElement = document.createElement("p");
-            tempElement.innerText = line.replace(overrideRegex, "");
+            tempElement.innerText = line.replace(overrideRegex, "").trim();
             element_textOut.appendChild(tempElement);
             lastCharIndex += line.length;
         } else {
