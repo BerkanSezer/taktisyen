@@ -1,5 +1,3 @@
-// Implementation of Emre's algorithm for syllabication of Turkish expressions.
-
 const _defaultStopCharacters = "-,;:.?!()"; // Used when loading files without metadata
 const _defaultFilename = "Taktisyen Şiiri.txt";
 const shortVowels = "aeıioöuüAEIİOÖUÜ";
