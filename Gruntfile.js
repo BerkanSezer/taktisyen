@@ -91,4 +91,5 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-clean");
 
     grunt.registerTask("default", ["jshint", "clean:dist", "concat", "babel", "uglify", "sass", "htmlmin", "zip:dist"]);
+    grunt.registerTask("debug", ["jshint", "clean:dist", "concat", "sass", "htmlmin", "zip:dist"]);
 };

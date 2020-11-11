@@ -1,10 +1,47 @@
-const _defaultStopCharacters = "-,;:.?!()"; // Used when loading files without metadata
+const _defaultStopCharacters = "-,;:.?!*'\"/\\[]{}()"; // Used when loading files without metadata
 const _defaultFilename = "Taktisyen Şiiri.txt";
 const shortVowels = "aeıioöuüAEIİOÖUÜ";
 const longVowels = "âêîôûÂÊÎÔÛ";
 const vowels = shortVowels.concat(longVowels);
 const consonants = "bcçdfgğhjklmnprsştvyzqwxBCÇDFGĞHJKLMNPRSŞTVYZQWX";
 const alphabet = vowels.concat(consonants);
+const kalipNames = {
+    "kkaakkkakk": "Mef'û'lu/me'fâ'î'lun/fe'û'lun",
+    "kkaakakakk": "Mef'û'lu/me'fâ'i'lun/fe'û'lun",
+    "kkakkkkakk": "Fâ'lun/fe'û'lun/fâ'lun/fe'û'lun",
+    "aakakaakak": "Mü'te'fâ'i'lun/mü'te'fâ'i'lun",
+
+    "kakkkakkkak": "Fâ'i'lâ'tün/fâ'i'lâ'tün/fâ'i'lun",
+    "aakkaakkaak": "Fe'i'lâ'tün/me'fa'î'lun/fe'i'lun",
+    "akkkakkkakk": "Me'fâ'î'lun/me'fâ'î'lûn/fe'û'lun",
+    "kaakkaakkak": "Müf'te'i'lun/müf'te'i'lun/fâ'i'lun",
+    "aakkakakaak": "Fe'i'lâ'tün/fe'î'la'tün/fe'i'lun",
+    "akkakkakkak": "Fe'û'lun/fe'û'lun/fe'û'lun/fe'ul",
+
+    "kkaakkkkkaakkk": "Mef'û'lu/me'fâ'î'lun/mef'û'lu/me'fâ'î'lun",
+    "kkakakkkkakakk": "Mef'û'lu/fâ'i'lâ'tün/mef'û'lu/fâ'i'lâ'tün",
+    "akkkakkakkkakk": "Me'fâ'î'lun/fe'û'lun/me'fâ'î'lun/fe'û'lun",
+    "kaakkakkaakkak": "Müf'te'i'lun/fâ'i'lun/müf'te'i'lun/fâ'i'lun",
+    "kkaakkkakkkakk": "Mef'û'lu/me'fâ'î'lun/me'fâ'î'lun/fe'û'lun",
+    "kkaakkaakkaakk": "Mef'û'lu/me'fâ'î'lu/me'fâ'î'lu/fe'û'lun",
+    "kkakakaakkakak": "Mef'û'lu/fâ'i'lâ'tü/me'fâ'î'lu/fâ'i'lun",
+
+    "kakkkakkkakkkak": "Fâ'i'lâ'tün/fâ'i'lâ'tün/fâ'i'lâ'tün/fâ'i'lun",
+    "aakkaakkaakkaak": "Fe'i'lâ'tün/fe'i'lâ'tün/fe'i'lâ'tün/fe'i'lun",
+    "kakkaakkaakkkak": "Fâ'i'lâ'tün/fe'i'lâ'tün/fe'i'lâ'tün/fâ'i'lun",
+    "akakaakkakakaak": "Me'fâ'i'lun/fe'i'lâ'tün/me'fâ'i'lun/fe'i'lun",
+    "kkakakkakkakakk": "Mef'û'lu/fâ'i'lâ'tün/me'fâ'î'lu/fâ'i'lâ'tün",
+
+    "akakakakakakakak": "Me'fâ'i'lun/me'fâ'i'lun/me'fâ'i'lun/me'fâ'i'lun",
+    "akkkakkkakkkakkk": "Me'fâ'î'lun/me'fâ'î'lun/me'fâ'î'lun/me'fâ'î'lun",
+    "kkakkkakkkakkkak": "Müs'tef'i'lun/müs'tef'i'lun/müs'tef'i'lun/müs'tef'i'lun",
+    "kaakkaakkaakkaak": "Müf'te'i'lun/müf'te'i'lun/müf'te'i'lun/müf'te'i'lun",
+    "aakakakkaakakakk": "Mü'te'fâ'i'lun/fe'û'lun/mü'te'fâ'i'lun/fe'û'lun",
+    "kaakakakkaakakak": "Müf'te'i'lun/me'fâ'i'lun/müf'te'i'lun/me'fâ'i'lun",
+    "kaakkakakaakkaka": "Müf'te'i'lun/fâ'i'lâ'tü/müf'te'i'lun/fâ'i'lâ'tü",
+    "kakkkakkkakkkakk": "Fâ'i'lâ'tün/fâ'i'lâ'tün/fâ'i'lâ'tün/fâ'i'lâ'tün",
+    "akakaakkakakaakk": "Me'fâ'i'lun/fe'i'lâ'tün/me'fâ'i'lun/fe'i'lâ'tün",
+};
 let stopCharacters = _defaultStopCharacters;
 
 function isVowel(letter) {

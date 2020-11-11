@@ -137,6 +137,20 @@ function on_input_kalip() {
         return;
     } else {
         let kalipHeceler = hecele(pureKalip);
+
+        let kalipLookup = kalipHeceler
+            .map(textHece => isOpen(textHece, {ignoreOverride: true, medli: false}))
+            .join("")
+            .replace(/1/g, "a")
+            .replace(/2/g, "k");
+        let useKalipLookup = kalipLookup in kalipNames;
+
+        if (useKalipLookup) {
+            element_kalipIn.value = kalipNames[kalipLookup];
+            pureKalip = element_kalipIn.value;
+            kalipHeceler = hecele(pureKalip);
+        }
+
         for (const hece in kalipHeceler) {
             if (kalipHeceler[hece].length === 0) {
                 continue;
@@ -146,7 +160,7 @@ function on_input_kalip() {
             if (hece == kalipHeceler.length - 1 && lastSyllableClosed) {
                 heceType = 2;
             } else {
-                heceType = isOpen(kalipHeceler[hece], {ignoreOverride: true, medli: medliHece});
+                heceType = isOpen(kalipHeceler[hece], {ignoreOverride: true, medli: (useKalipLookup?false:medliHece)});
             }
             kalipData.push(heceType);
 

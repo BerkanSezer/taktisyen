@@ -69,6 +69,8 @@ nav.menu {
 
   button {
     padding: 0.2em 0.5em;
+    background: unset;
+    border: unset;
 
     $shadow: 0 0 4px rgb(120, 120, 120);
     &:hover {
