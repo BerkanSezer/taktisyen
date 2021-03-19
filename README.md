@@ -17,11 +17,11 @@ The recommended way to install is via npm and grunt.
 $ git clone git@github.com:EmreOzcan/taktisyen.git
 $ cd taktisyen
 $ npm install
-$ grunt
+$ npx grunt
 ```
 
-*(You can issue `$ grunt debug` instead of just `$ grunt` to skip the Babel
-step.)*
+*(You can issue `$ npx grunt debug` instead of just `$ npx grunt` to skip the
+Babel step.)*
 
 The output files will be put under `/dist`.
 

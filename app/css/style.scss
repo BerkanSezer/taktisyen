@@ -1,7 +1,11 @@
 @use "sass:map";
 
+$serif: Georgia, serif;
+$sans: Tahoma, sans-serif;
+$mono: monospace;
+
 body {
-  font-family: Tahoma, sans-serif;
+  font-family: $sans;
   margin: 0;
 }
 
@@ -95,6 +99,10 @@ nav.menu {
 .page {
   margin: 0.5em;
 
+  button {
+    @include button;
+  }
+
   &.app {
     display: grid;
     grid-template-areas:
@@ -125,7 +133,7 @@ nav.menu {
     }
 
     #kalip-output {
-      font-family: monospace;
+      font-family: $mono;
       letter-spacing: 0.3em;
       line-height: 160%;
       background-color: rgb(240, 240, 240);
@@ -136,7 +144,7 @@ nav.menu {
       span.separator:not(:last-child) {
         &::after {
           content: "\5C";
-          font-family: monospace;
+          font-family: $mono;
           color: gray;
         }
       }
@@ -178,7 +186,7 @@ nav.menu {
     }
 
     .aruz-text {
-      font-family: Georgia, serif;
+      font-family: $serif;
       font-size: large;
     }
   }
@@ -206,10 +214,6 @@ nav.menu {
       margin-bottom: 1em;
     }
 
-    button {
-      @include button;
-    }
-
     .additional-links {
       font-size: 80%;
 
@@ -218,6 +222,10 @@ nav.menu {
       gap: 0.5em;
       align-items: flex-end;
     }
+  }
+
+  &.license {
+    font-family: $serif;
   }
 }
 

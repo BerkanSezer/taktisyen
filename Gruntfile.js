@@ -63,11 +63,6 @@ module.exports = function (grunt) {
                 files: [
                     {src: ["app/index.html"], dest: "dist/index.html"}
                 ],
-            },
-            license: {
-                files: [
-                    {src: ["LICENSE"], dest: "dist/LICENSE.txt"}
-                ]
             }
         },
     });
@@ -82,11 +77,11 @@ module.exports = function (grunt) {
 
     grunt.registerTask(
         "default",
-        ["jshint", "clean:dist", "concat", "babel", "sass", "copy:html", "inline", "clean:inlined", "copy:license"]
+        ["jshint", "clean:dist", "concat", "babel", "sass", "copy:html", "inline", "clean:inlined"]
     );
 
     grunt.registerTask(
         "debug",
-        ["jshint", "clean:dist", "concat", "sass", "copy:html", "inline", "copy:license"]
+        ["jshint", "clean:dist", "concat", "sass", "copy:html", "inline"]
     );
 };
