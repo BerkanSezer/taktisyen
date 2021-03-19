@@ -1,12 +1,12 @@
 {
   "name": "taktisyen",
-  "version": "1.0.2",
-  "description": "Türkçe hece analizcisi",
+  "version": "1.0.3",
+  "description": "Syllabication and analysis of Turkish poems written in aruz prosody.",
   "scripts": {
     "build": "grunt"
   },
   "author": "Emre Özcan",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "private": true,
   "dependencies": {},
   "devDependencies": {
