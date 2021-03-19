@@ -61,9 +61,14 @@ module.exports = function (grunt) {
         copy: {
             html: {
                 files: [
-                    {src: ['app/index.html'], dest: 'dist/index.html'},
+                    {src: ["app/index.html"], dest: "dist/index.html"}
                 ],
             },
+            license: {
+                files: [
+                    {src: ["LICENSE"], dest: "dist/LICENSE.txt"}
+                ]
+            }
         },
     });
 
@@ -75,6 +80,13 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-inline');
     grunt.loadNpmTasks('grunt-contrib-copy');
 
-    grunt.registerTask("default", ["jshint", "clean:dist", "concat", "babel", "sass", "copy:html", "inline", "clean:inlined"]);
-    grunt.registerTask("debug", ["jshint", "clean:dist", "concat", "sass", "copy:html", "inline"]);
+    grunt.registerTask(
+        "default",
+        ["jshint", "clean:dist", "concat", "babel", "sass", "copy:html", "inline", "clean:inlined", "copy:license"]
+    );
+
+    grunt.registerTask(
+        "debug",
+        ["jshint", "clean:dist", "concat", "sass", "copy:html", "inline", "copy:license"]
+    );
 };

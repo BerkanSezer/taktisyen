@@ -14,8 +14,6 @@
     <button onclick="on_click_open();">Aç...</button>
     <button onclick="switchpage('.page.settings')">Seçenekler</button>
     <span class="spacer" aria-hidden="true"></span>
-    <button onclick="download();">Taktisyen'i İndir</button>
-    <a href="https://github.com/EmreOzcan/taktisyen">Kaynak Kodu</a>
 </nav>
 
 <input oninput="on_input_file();" type="file" id="file-input" accept="text/plain" hidden aria-hidden="true">
@@ -63,7 +61,16 @@
         <label for="filename-input" data-before-element>Dosya ismi</label>
         <input type="text" id="filename-input">
     </div>
+
     <button onclick="switchpage('.page.app');" class="button">Geri</button>
+
+    <div class="additional-links">
+        <a href="javascript:download();">Taktisyen'i İndir</a>
+        <a href="https://github.com/EmreOzcan/taktisyen">Kaynak Kodu</a>
+        <a href="./LICENSE.txt">Taktisyen projesi MIT Lisansı altında sağlanmaktadır.</a>
+        <span>&copy; 2021 Emre Özcan</span>
+    </div>
+
 </div>
 
 <script defer src="script.js"></script>

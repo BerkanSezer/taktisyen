@@ -209,6 +209,15 @@ nav.menu {
     button {
       @include button;
     }
+
+    .additional-links {
+      font-size: 80%;
+
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+      align-items: flex-end;
+    }
   }
 }
 
