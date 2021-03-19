@@ -38,7 +38,7 @@ const _defaultMetadata = {
 
 
 function importMetadata(md) {
-    let usedMetadata = {... _defaultMetadata, ... md};
+    let usedMetadata = {..._defaultMetadata, ...md};
 
     element_kalipIn.value = usedMetadata.sample;
 
@@ -106,7 +106,7 @@ function on_input_file() {
         return;
     }
     let reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = function (e) {
         let contents = e.target.result;
         let metadata;
         let headerLength = 0;
@@ -160,7 +160,10 @@ function on_input_kalip() {
             if (hece == kalipHeceler.length - 1 && lastSyllableClosed) {
                 heceType = 2;
             } else {
-                heceType = isOpen(kalipHeceler[hece], {ignoreOverride: true, medli: (useKalipLookup?false:medliHece)});
+                heceType = isOpen(kalipHeceler[hece], {
+                    ignoreOverride: true,
+                    medli: (useKalipLookup ? false : medliHece)
+                });
             }
             kalipData.push(heceType);
 
@@ -286,6 +289,19 @@ function on_click_open() {
     element_fileInput.click();
     element_fileInput.value = "";
 }
+
+
+function download() {
+    let content = [document.documentElement.outerHTML];
+    let blob = new Blob(content, {type: "text/html"});
+    let anchor = document.createElement("a");
+    anchor.href = URL.createObjectURL(blob);
+    anchor.download = "Taktisyen.html";
+    anchor.hidden = true;
+    document.body.appendChild(anchor);
+    anchor.click();
+}
+
 
 on_click_new();
 

@@ -20,12 +20,10 @@ $ npm install
 $ grunt
 ```
 
-*(You can issue `$ grunt debug` instead of just `$ grunt` to skip the
-minification and Babel steps.)*
+*(You can issue `$ grunt debug` instead of just `$ grunt` to skip the Babel
+step.)*
 
 The output files will be put under `/dist`.
-You can also just compile the SCSS file, combine the JavaScript files and put
-them next to the HTML file.
 
 ## License
 

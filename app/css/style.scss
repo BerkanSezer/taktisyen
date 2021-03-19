@@ -64,13 +64,15 @@ body {
 
 nav.menu {
   display: flex;
+  justify-content: space-between;
   background: linear-gradient(to bottom, white, rgb(220, 220, 220));
   padding: 0 0.5em;
 
-  button {
+  button, a {
     padding: 0.2em 0.5em;
     background: unset;
     border: unset;
+    font-size: 1rem;
 
     $shadow: 0 0 4px rgb(120, 120, 120);
     &:hover {
@@ -81,6 +83,10 @@ nav.menu {
     &:active {
       box-shadow: inset $shadow;
     }
+  }
+
+  span.spacer {
+    margin-left: auto;
   }
 }
 

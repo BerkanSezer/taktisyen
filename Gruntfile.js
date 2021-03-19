@@ -12,16 +12,6 @@ module.exports = function(grunt) {
                 dest: "dist/script.js",
             }
         },
-        uglify: {
-            options: {
-                banner: "/*! <%= pkg.name %> <%= grunt.template.today('dd.mm.yyyy') %> */"
-            },
-            dist: {
-                files: {
-                    "dist/script.js": ["dist/**/*.js"]
-                }
-            }
-        },
         jshint: {
             files: ["Gruntfile.js", "app/js/*.js"],
             options: {
@@ -47,8 +37,7 @@ module.exports = function(grunt) {
         sass: {
             options: {
                 implementation: sass,
-                noSourceMap: true,
-                style: "compressed"
+                noSourceMap: true
             },
             dist: {
                 files: {
@@ -56,40 +45,36 @@ module.exports = function(grunt) {
                 }
             }
         },
-        htmlmin: {
-            dev: {
-                options: {
-                    collapseInlineTagWhitespace: true,
-                    collapseWhitespace: true,
-                    removeComments: true
-                },
-                files: {
-                    "dist/index.html": "app/index.html"
-                }
-            }
-        },
-        zip: {
-            dist: {
-                cwd: "dist",
-                src: ["dist/**"],
-                dest: "dist/.dist.zip",
-                compression: "DEFLATE"
-            }
-        },
         clean: {
-            dist: ["dist"]
-        }
+            dist: ["dist"],
+            inlined: ["dist/script.js", "dist/style.css"]
+        },
+        inline: {
+            dist: {
+                options: {
+                    tag: "",
+                },
+                src: "dist/index.html",
+                dest: "dist/index.html"
+            }
+        },
+        copy: {
+          html: {
+            files: [
+              {src: ['app/index.html'], dest: 'dist/index.html'},
+            ],
+          },
+        },
     });
 
-    grunt.loadNpmTasks("grunt-contrib-uglify");
     grunt.loadNpmTasks("grunt-contrib-jshint");
     grunt.loadNpmTasks("grunt-contrib-concat");
     grunt.loadNpmTasks("grunt-babel");
     grunt.loadNpmTasks("grunt-contrib-sass");
-    grunt.loadNpmTasks("grunt-contrib-htmlmin");
-    grunt.loadNpmTasks("grunt-zip");
     grunt.loadNpmTasks("grunt-contrib-clean");
+    grunt.loadNpmTasks('grunt-inline');
+    grunt.loadNpmTasks('grunt-contrib-copy');
 
-    grunt.registerTask("default", ["jshint", "clean:dist", "concat", "babel", "uglify", "sass", "htmlmin", "zip:dist"]);
-    grunt.registerTask("debug", ["jshint", "clean:dist", "concat", "sass", "htmlmin", "zip:dist"]);
+    grunt.registerTask("default", ["jshint", "clean:dist", "concat", "babel", "sass", "copy:html", "inline", "clean:inlined"]);
+    grunt.registerTask("debug", ["jshint", "clean:dist", "concat", "sass", "copy:html", "inline", "clean:inlined"]);
 };
