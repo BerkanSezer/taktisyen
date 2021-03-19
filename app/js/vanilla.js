@@ -292,7 +292,7 @@ function on_click_open() {
 
 
 function download() {
-    let content = [document.documentElement.outerHTML];
+    let content = ["<!DOCTYPE html>\n", document.documentElement.outerHTML];
     let blob = new Blob(content, {type: "text/html"});
     let anchor = document.createElement("a");
     anchor.href = URL.createObjectURL(blob);
