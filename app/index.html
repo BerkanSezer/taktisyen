@@ -35,6 +35,15 @@
 </div>
 
 <div class="page settings">
+    <h2>Erişilebilirlik seçenekleri</h2>
+
+    <div class="row">
+        <input type="checkbox" id="visual-difference-checkbox" oninput="updateVisualDifference(this.checked);">
+        <label for="visual-difference-checkbox">Hece çeşitlerini görsel farklılıklarla tasvir et</label>
+    </div>
+
+    <h2>Düzenlenen belgenin seçenekleri</h2>
+
     <div class="row">
         <input type="checkbox" id="medli-checkbox" checked oninput="medliHece = this.checked;">
         <label for="medli-checkbox">Medli hece</label>
@@ -57,7 +66,7 @@
     <button onclick="switchpage('.page.app');" class="button">Geri</button>
 </div>
 
-<script src="script.js"></script>
+<script defer src="script.js"></script>
 
 </body>
 </html>

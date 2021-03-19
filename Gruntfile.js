@@ -1,4 +1,4 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
     const sass = require("sass");
 
     grunt.initConfig({
@@ -59,11 +59,11 @@ module.exports = function(grunt) {
             }
         },
         copy: {
-          html: {
-            files: [
-              {src: ['app/index.html'], dest: 'dist/index.html'},
-            ],
-          },
+            html: {
+                files: [
+                    {src: ['app/index.html'], dest: 'dist/index.html'},
+                ],
+            },
         },
     });
 
@@ -76,5 +76,5 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
 
     grunt.registerTask("default", ["jshint", "clean:dist", "concat", "babel", "sass", "copy:html", "inline", "clean:inlined"]);
-    grunt.registerTask("debug", ["jshint", "clean:dist", "concat", "sass", "copy:html", "inline", "clean:inlined"]);
+    grunt.registerTask("debug", ["jshint", "clean:dist", "concat", "sass", "copy:html", "inline"]);
 };

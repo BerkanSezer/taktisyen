@@ -51,6 +51,7 @@ body {
 
 @mixin button {
   @include text-input;
+  font-size: 1rem;
   padding: 0.1em 1.8em;
   background-color: rgb(240, 240, 240);
   user-select: none;
@@ -75,6 +76,7 @@ nav.menu {
     font-size: 1rem;
 
     $shadow: 0 0 4px rgb(120, 120, 120);
+
     &:hover {
       box-shadow: $shadow;
       cursor: pointer;
@@ -105,6 +107,7 @@ nav.menu {
     grid-row-gap: 2px;
 
     @include holders(("kalip-input", "kalip-output", "text-input", "text-output"));
+
     #text-output {
       align-self: start;
 
@@ -138,15 +141,26 @@ nav.menu {
         }
       }
 
+
       $hece-colors: (
               "open": rgba(63, 127, 255, 0.25),
               "closed": rgba(255, 255, 0, 0.25),
               "medli": rgba(255, 0, 0, 0.25),
       );
 
+      $hece-decorations: (
+              "open": 1px double underline,
+              "closed": 3px solid underline,
+              "medli": 3px dotted underline,
+      );
+
       @each $type, $color in $hece-colors {
         span.#{$type} {
           background-color: $color;
+          text-decoration: var(--used-#{$type}-decoration);
+          @at-root :root {
+            --visible-#{$type}-decoration: #{map.get($hece-decorations, $type)};
+          }
         }
       }
 
@@ -182,6 +196,7 @@ nav.menu {
 
     label {
       display: inline;
+
       &[data-before-element] {
         width: 25%;
       }

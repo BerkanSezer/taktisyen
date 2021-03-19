@@ -6,11 +6,13 @@ const element_textIn = document.getElementById("text-input");
 
 const element_fileInput = document.getElementById("file-input");
 
+const element_visualDifferenceCheckbox = document.getElementById("visual-difference-checkbox");
 const element_stopCharacters = document.getElementById("stop-input");
 const element_medliCheckbox = document.getElementById("medli-checkbox");
 const element_lastSyllableCheckbox = document.getElementById("last-syllable-checkbox");
 
 const element_filenameInput = document.getElementById("filename-input");
+const element_root = document.querySelector(":root");
 
 const overrideRegex = /\[[0123]]/g;
 const heceCorrespondence = {
@@ -302,6 +304,30 @@ function download() {
     anchor.click();
 }
 
+
+function updateVisualDifference(enabled) {
+    ["open", "closed", "medli"].forEach(type => {
+        element_root.style.setProperty(
+            `--used-${type}-decoration`,
+            enabled ? `var(--visible-${type}-decoration)` : "none");
+    });
+    localStorage.setItem("visualDifferenceForHeceTypes", String(enabled));
+}
+
+function setupDefaultStorage() {
+    if (!localStorage.getItem("storageSchemaVersion")) {
+        localStorage.setItem("storageSchemaVersion", "1");
+        localStorage.setItem("visualDifferenceForHeceTypes", "false");
+    }
+}
+
+function retrieveOptionsFromDefaultStorage() {
+    element_visualDifferenceCheckbox.checked = localStorage.getItem("visualDifferenceForHeceTypes") === "true";
+    updateVisualDifference(element_visualDifferenceCheckbox.checked);
+}
+
+setupDefaultStorage();
+retrieveOptionsFromDefaultStorage();
 
 on_click_new();
 
