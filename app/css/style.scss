@@ -45,6 +45,11 @@ body {
     box-shadow: 0 0 3px 3px $background-color;
     background-color: $background-color;
   }
+  &:disabled + label::before {
+    $background-color: darkgrey;
+    box-shadow: 0 0 3px 3px $background-color;
+    background-color: $background-color;
+  }
   &:checked + label::before {
     content: "\2713";
   }
@@ -221,6 +226,72 @@ nav.menu {
       flex-direction: column;
       gap: 0.5em;
       align-items: flex-end;
+      margin: 0.5em 0;
+    }
+  }
+
+  &.dictionary {
+    input, select {
+      font-size: 1rem;
+    }
+
+    input[data-kalip] {
+      font-family: $mono;
+    }
+
+    input[type=checkbox] {
+      @include checkbox;
+    }
+
+    .actions {
+      margin: 1em 0;
+    }
+
+    .filter {
+      margin: 1em 0;
+
+      &#syllable-count-filter {
+        input[type=number] {
+          width: 3em;
+        }
+      }
+    }
+
+    .filtered-words-holder {
+      overflow-x: auto;
+      overflow-y: scroll;
+      height: 70vh;
+      border: 1px solid gray;
+      box-shadow: inset 0 0 15px 1px gray;
+
+      span[data-kalip] {
+        font-family: $mono;
+        color: gray;
+        font-size: 90%;
+        user-select: none;
+      }
+
+      ol {
+        column-count: 3;
+
+        @media screen and (max-width: 1200px) {
+          column-count: 2;
+        }
+
+        @media screen and (max-width: 600px) {
+          column-count: 1;
+        }
+      }
+    }
+
+    .info {
+      font-size: 80%;
+
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+      align-items: flex-end;
+      margin: 0.5em 0;
     }
   }
 
@@ -236,4 +307,8 @@ label, nav {
 :focus {
   outline: rgba(0, 0, 0, 80) dotted 1px;
   outline-offset: 2px;
+}
+
+*.inactive {
+  display: none !important;
 }

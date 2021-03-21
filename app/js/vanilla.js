@@ -246,9 +246,9 @@ function on_input_text() {
 
 function switchpage(selector) {
     for (const page of document.getElementsByClassName("page")) {
-        page.style.display = "none";
+        page.classList.add("inactive");
     }
-    document.querySelector(selector).style.display = "";
+    document.querySelector(selector).classList.remove("inactive");
 }
 
 function on_click_new() {

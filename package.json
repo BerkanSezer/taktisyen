@@ -1,9 +1,10 @@
 {
   "name": "taktisyen",
-  "version": "1.0.6",
+  "version": "2.0.0",
   "description": "Syllabication and analysis of Turkish poems written in aruz prosody.",
   "scripts": {
-    "build": "grunt"
+    "build": "grunt",
+    "debug": "grunt debug"
   },
   "author": "Emre Özcan",
   "license": "MIT",

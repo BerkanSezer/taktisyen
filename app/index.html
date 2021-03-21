@@ -14,11 +14,12 @@
     <button onclick="on_click_open();">Aç...</button>
     <button onclick="switchpage('.page.settings')">Seçenekler</button>
     <span class="spacer" aria-hidden="true"></span>
+    <button onclick="switchpage('.page.dictionary');" id="dictionary-access-button" class="inactive">Sözlük</button>
 </nav>
 
 <input oninput="on_input_file();" type="file" id="file-input" accept="text/plain" hidden aria-hidden="true">
 
-<div class="page app">
+<div class="page inactive app">
     <label for="kalip-input">Kalıp Örneği</label>
     <input oninput="on_input_kalip();" type="text" id="kalip-input" class="aruz-kalip">
 
@@ -32,7 +33,7 @@
     <div id="text-output" class="aruz-output aruz-text"></div>
 </div>
 
-<div class="page settings">
+<div class="page inactive settings">
     <h2>Erişilebilirlik seçenekleri</h2>
 
     <div class="row">
@@ -72,7 +73,59 @@
 
 </div>
 
-<div class="page license">
+<div class="page inactive dictionary">
+    <div class="filter" id="kalip-filter">
+        <input type="checkbox" id="kalip-filter-enabled" checked>
+        <label for="kalip-filter-enabled">Etkinleştir</label>
+
+        Sözcük heceleri
+        <input type="text" placeholder="örn: -. veya ././-/-" id="kalip-filter-value" pattern="[.\-\/]+" data-kalip>
+        kalıbıyla
+        <select id="kalip-filter-restriction">
+            <option value="is" selected>aynen eşleşirse</option>
+            <option value="startswith">başlarsa</option>
+            <option value="endswith">biterse</option>
+        </select>
+        <select id="kalip-filter-policy">
+            <option value="accept" selected>yalnızca onu kabul et</option>
+        </select>
+    </div>
+
+    <div class="filter" id="syllable-count-filter">
+        <input type="checkbox" id="syllable-count-filter-enabled" checked>
+        <label for="syllable-count-filter-enabled">Etkinleştir</label>
+        Hece sayısı
+        <input type="number" id="syllable-count-filter-bound-1" min="1" max="43" value="1">
+        ve
+        <input type="number" id="syllable-count-filter-bound-2" min="1" max="43" value="43">
+        arasında ise
+        <select id="syllable-count-filter-policy">
+            <option value="accept" selected>yalnızca onu kabul et</option>
+        </select>
+    </div>
+
+    <div class="actions">
+        <button onclick="applyFilters();">Uygula</button>
+        <button onclick="switchpage('.page.app');" class="button">Geri</button>
+    </div>
+
+    <div class="filtered-words-holder">
+        <ol id="filtered-words">
+
+        </ol>
+    </div>
+
+    <div class="info">
+        <div>
+            <span class="dict-size"></span> söz dizinlendi.
+        </div>
+        <div>
+            Güncel Türkçe Sözlük &copy; Türk Dil Kurumu
+        </div>
+    </div>
+</div>
+
+<div class="page inactive license">
     <p>MIT License</p>
     <p>Copyright &copy; 2021 Emre Özcan</p>
 
