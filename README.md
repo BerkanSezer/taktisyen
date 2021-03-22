@@ -9,6 +9,12 @@ see patterns that may be difficult to notice otherwise.
 
 ![Sample screenshot](images/sample_screenshot.png)
 
+Our dictionary can be used to find words that fill complicated conditions very
+easily. Users can filter words by syllables, origin language, tone of voice and
+so much more very easily!
+
+![Screenshot of our dictionary feature](images/dictionary_screenshot.png)
+
 ## Building
 
 The recommended way to install is via npm and grunt.
