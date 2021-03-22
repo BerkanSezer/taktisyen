@@ -2,7 +2,7 @@ const dbURL = "https://cdn.taktisyen.tk/data/db.json";
 const dictButton = document.getElementById("dictionary-access-button");
 
 const OriginLanguages = {
-    0: "Orijinal",
+    0: "Belirtilmemiş veya Orijinal",
     19: "Bileşik",
 
     11: "Arapça",
@@ -109,7 +109,7 @@ const Fields = {
     105: "antropoloji (alan)",
 };
 
-const MeaingProperties = {
+const MeaningProperties = {
     18: "ünlem (sözcük türü)",
     19: "isim (sözcük türü)",
     20: "sıfat (sözcük türü)",
@@ -204,7 +204,6 @@ const syllableTypeLookup = {
 const element_kalipFilterEnabled = document.getElementById("kalip-filter-enabled");
 const element_kalipFilterValue = document.getElementById("kalip-filter-value");
 const element_kalipFilterRestriction = document.getElementById("kalip-filter-restriction");
-const element_kalipFilterPolicy = document.getElementById("kalip-filter-policy");
 
 const restrictionFunctions = {
     "is": (syll, filter) => syll === filter,
@@ -222,24 +221,18 @@ function applyKalipFilters(input) {
         return input;
     }
 
-    let acceptedEntries = [];
-    for (let entry of input) {
+    let filterValue = element_kalipFilterValue.value;
+    let restriction = element_kalipFilterRestriction.value;
 
-        let filterValue = element_kalipFilterValue.value;
-        let joiner = (filterValue.search("/") === -1) ? "" : "/";
-        let hecelerHumanReadable = humanReadableHecele(entry.entry, joiner);
-
-        let acceptance = restrictionFunctions[element_kalipFilterRestriction.value](hecelerHumanReadable, filterValue);
-
-        if (element_kalipFilterPolicy.value === "deny") {
-            acceptance = !acceptance;
-        }
-
-        if (acceptance) {
-            acceptedEntries.push(entry);
-        }
-    }
-    return acceptedEntries;
+    return input.filter(entry =>
+        restrictionFunctions[restriction](
+            humanReadableHecele(
+                entry.entry,
+                (filterValue.search("/") === -1) ? "": "/"
+            ),
+            filterValue
+        )
+    );
 }
 
 
@@ -258,48 +251,134 @@ function applySyllableCountFilters(input) {
     let upperBound = Math.max(bound1, bound2);
     let lowerBound = Math.min(bound1, bound2);
 
+    return input.filter(entry => {
+        let x = countVowels(entry.entry);
+        return (x <= upperBound) && (x >= lowerBound);
+    });
+}
+
+
+function applyGenericMeaningPropertyEnumFilter(input, enabled, enumDict, filterValue, acceptancePolicy) {
+    if (!enabled) {
+        return input;
+    }
+
     let acceptedEntries = [];
     for (let entry of input) {
-        let syllableAmount = 0;
-        for (let letter of entry.entry) {
-            if (vowels.includes(letter)) {
-                syllableAmount += 1;
+        let processedEntry = false;
+        let matchesFilter = filterValue === "unspecified";
+
+        for (let meaning of entry.meanings) {
+            if (processedEntry) { continue; }
+
+            for (let property of meaning.properties) {
+                if (processedEntry) { continue; }
+
+                if (filterValue === "unspecified") {
+                    if (enumDict.hasOwnProperty(Number(property))) {
+                        matchesFilter = false;
+                        processedEntry = true;
+                    }
+                } else {
+                    if (property == filterValue) {
+                        matchesFilter = true;
+                        processedEntry = true;
+                    }
+                }
             }
         }
 
-        if (syllableAmount > upperBound) { continue; }
-        if (syllableAmount < lowerBound) { continue; }
-        acceptedEntries.push(entry);
+        if (acceptancePolicy === "deny") { matchesFilter = !matchesFilter; }
+        if (matchesFilter) {
+            acceptedEntries.push(entry);
+        }
     }
     return acceptedEntries;
 }
 
-const element_filteredWords = document.getElementById("filtered-words");
+
+const element_toneFilterEnabled = document.getElementById("tone-filter-enabled");
+const element_toneFilterValue = document.getElementById("tone-filter-value");
+const element_toneFilterPolicy = document.getElementById("tone-filter-policy");
+
+function applyToneFilter(input) {
+    return applyGenericMeaningPropertyEnumFilter(
+        input,
+        element_toneFilterEnabled.checked,
+        Tones,
+        element_toneFilterValue.value,
+        element_toneFilterPolicy.value,
+    );
+}
+
+
+const element_posFilterEnabled = document.getElementById("pos-filter-enabled");
+const element_posFilterValue = document.getElementById("pos-filter-value");
+const element_posFilterPolicy = document.getElementById("pos-filter-policy");
+
+function applyPOSFilter(input) {
+    return applyGenericMeaningPropertyEnumFilter(
+        input,
+        element_posFilterEnabled.checked,
+        PartsOfSpeech,
+        element_posFilterValue.value,
+        element_posFilterPolicy.value,
+    );
+}
+
+
+const element_originLanguageFilterEnabled = document.getElementById("origin-language-filter-enabled");
+const element_originLanguageFilterValue = document.getElementById("origin-language-filter-value");
+const element_originLanguageFilterPolicy = document.getElementById("origin-language-filter-policy");
+
+function applyOriginLanguageFilter(input) {
+    if (!element_originLanguageFilterEnabled.checked) {
+        return input;
+    }
+
+    let filterValue = element_originLanguageFilterValue.value;
+    let flipDueToPolicy = element_originLanguageFilterPolicy.value === "deny";
+
+    if (!flipDueToPolicy) {
+        return input.filter(entry => entry.origin_language == filterValue);
+    } else {
+        return input.filter(entry => entry.origin_language != filterValue);
+    }
+}
+
+const element_fieldFilterEnabled = document.getElementById("field-filter-enabled");
+const element_fieldFilterValue = document.getElementById("field-filter-value");
+
+function applyFieldFilter(input) {
+    return applyGenericMeaningPropertyEnumFilter(
+        input,
+        element_fieldFilterEnabled.checked,
+        Fields,
+        element_fieldFilterValue.value,
+        "accept",
+    );
+}
 
 
 function applyFilters() {
-    let elementsToBeRemoved = document.querySelectorAll("ol#filtered-words li");
-    if (elementsToBeRemoved !== null) {
-        for (let element of elementsToBeRemoved) {
-            element_filteredWords.removeChild(element);
-        }
-    }
+    let wordPre = document.getElementById("filtered-words-pre");
+    wordPre.innerText = "";
 
     let stage = applyKalipFilters(db);
     stage = applySyllableCountFilters(stage);
+    stage = applyToneFilter(stage);
+    stage = applyOriginLanguageFilter(stage);
+    stage = applyPOSFilter(stage);
+    stage = applyFieldFilter(stage);
 
-    for (let entry of stage) {
-        let element = document.createElement("li");
-        let data_spelling = document.createElement("span");
-        data_spelling.innerText = entry.entry;
-        let data_kalip = document.createElement("span");
-        data_kalip.setAttribute("data-kalip", "");
+    const mxl = String(stage.length).length;
 
-        let joiner = (element_kalipFilterValue.value.search("/") === -1) ? "" : "/";
-        data_kalip.innerText = humanReadableHecele(entry.entry, joiner);
-
-        element.appendChild(data_spelling);
-        element.appendChild(data_kalip);
-        element_filteredWords.appendChild(element);
-    }
+    let counter = 0;
+    wordPre.innerText =
+        stage.map( entry => {
+            counter += 1;
+            return (
+                `${String(counter).padStart(mxl)}. ${entry.entry}  ${humanReadableHecele(entry.entry, "/")}`
+            );
+        }).join("\n");
 }

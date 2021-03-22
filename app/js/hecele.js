@@ -111,6 +111,16 @@ function hecele(text) {
     return syllables;
 }
 
+function countVowels(text) {
+    let vowel_count = 0;
+    for (let letter of text) {
+        if (vowels.includes(letter)) {
+            vowel_count += 1;
+        }
+    }
+    return vowel_count;
+}
+
 function isOpen(syllable, options) {
     let letters = getLetters(syllable);
 

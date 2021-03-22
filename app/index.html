@@ -75,7 +75,7 @@
 
 <div class="page inactive dictionary">
     <div class="filter" id="kalip-filter">
-        <input type="checkbox" id="kalip-filter-enabled" checked>
+        <input type="checkbox" id="kalip-filter-enabled">
         <label for="kalip-filter-enabled">Etkinleştir</label>
 
         Sözcük heceleri
@@ -86,22 +86,168 @@
             <option value="startswith">başlarsa</option>
             <option value="endswith">biterse</option>
         </select>
-        <select id="kalip-filter-policy">
-            <option value="accept" selected>yalnızca onu kabul et</option>
-        </select>
+        sözü seç
     </div>
 
     <div class="filter" id="syllable-count-filter">
-        <input type="checkbox" id="syllable-count-filter-enabled" checked>
+        <input type="checkbox" id="syllable-count-filter-enabled">
         <label for="syllable-count-filter-enabled">Etkinleştir</label>
         Hece sayısı
         <input type="number" id="syllable-count-filter-bound-1" min="1" max="43" value="1">
-        ve
+        ile
         <input type="number" id="syllable-count-filter-bound-2" min="1" max="43" value="43">
-        arasında ise
-        <select id="syllable-count-filter-policy">
-            <option value="accept" selected>yalnızca onu kabul et</option>
+        arasındaysa sözü seç
+    </div>
+    
+    <div class="filter" id="origin-language-filter">
+        <input type="checkbox" id="origin-language-filter-enabled">
+        <label for="origin-language-filter-enabled">Etkinleştir</label>
+        
+        Sözün kökeni
+        <select id="origin-language-filter-value">
+            <optgroup label="Türkçe">
+                <option value="0">Orijinal veya Belirtilmemiş</option>
+                <option value="19">Bileşik</option>
+            </optgroup>
+            <optgroup label="Yabancı diller">
+                <option value="23">Almanca</option>
+                <option value="11">Arapça</option>
+                <option value="348">Arnavutça</option>
+                <option value="27">Bulgarca</option>
+                <option value="21">Ermenice</option>
+                <option value="12">Farsça</option>
+                <option value="392">Fince</option>
+                <option value="13">Fransızca</option>
+                <option value="25">İbranice</option>
+                <option value="18">İngilizce</option>
+                <option value="20">İspanyolca</option>
+                <option value="14">İtalyanca</option>
+                <option value="346">Japonca</option>
+                <option value="420">Korece</option>
+                <option value="16">Latince</option>
+                <option value="26">Macarca</option>
+                <option value="354">1. Moğolca Grubu</option>
+                <option value="153">2. Moğolca Grubu</option>
+                <option value="28">Portekizce</option>
+                <option value="393">Rumca</option>
+                <option value="22">Rusça</option>
+                <option value="486">Sırpça</option>
+                <option value="24">Slavca</option>
+                <option value="395">Soğdanca</option>
+                <option value="15">Yunanca</option>
+            </optgroup>
         </select>
+        ise sözü
+        <select id="origin-language-filter-policy">
+            <option value="accept" selected>seç</option>
+            <option value="deny">reddet</option>
+        </select>
+    </div>
+
+    <div class="filter" id="tone-filter">
+        <input type="checkbox" id="tone-filter-enabled">
+        <label for="tone-filter-enabled">Etkinleştir</label>
+
+        Anlamlarından birinin üslubu
+        <select id="tone-filter-value">
+            <option value="unspecified" selected>belirtilmemiş</option>
+            <option value="30">argo</option>
+            <option value="31">eskimiş</option>
+            <option value="32">mecaz</option>
+            <option value="33">halk ağzında</option>
+            <option value="34">teklifsiz konuşmada</option>
+            <option value="35">alay yollu</option>
+            <option value="36">kaba konuşmada</option>
+            <option value="37">şaka yollu</option>
+            <option value="38">hakaret yollu</option>
+        </select>
+        ise sözü
+        <select id="tone-filter-policy">
+            <option value="accept" selected>seç</option>
+            <option value="deny">reddet</option>
+        </select>
+    </div>
+
+    <div class="filter" id="pos-filter">
+        <input type="checkbox" id="pos-filter-enabled">
+        <label for="pos-filter-enabled">Etkinleştir</label>
+
+        Anlamlarından birinin türü, işlevi veya kullanımı
+        <select id="pos-filter-value">
+            <option value="unspecified" selected>belirtilmemiş</option>
+            <option value="18">ünlem</option>
+            <option value="19">isim</option>
+            <option value="20">sıfat</option>
+            <option value="21">-e</option>
+            <option value="22">-i</option>
+            <option value="23">nesnesiz</option>
+            <option value="24">zarf</option>
+            <option value="25">-le</option>
+            <option value="26">-den</option>
+            <option value="27">edat</option>
+            <option value="28">bağlaç</option>
+            <option value="29">zamir</option>
+            <option value="82">yardımcı  fiil</option>
+            <option value="83">-de</option>
+        </select>
+        ise sözü
+        <select id="pos-filter-policy">
+            <option value="accept" selected>seç</option>
+            <option value="deny">reddet</option>
+        </select>
+    </div>
+    
+    <div class="filter" id="field-filter">
+        <input type="checkbox" id="field-filter-enabled">
+        <label for="field-filter-enabled">Etkinleştir</label>
+        
+        Anlamlardan biri
+        <select id="field-filter-value">
+            <option value="unspecified">belirtilmemiş</option>
+            <option value="49">anatomi</option>
+            <option value="105">antropoloji</option>
+            <option value="73">askerlik</option>
+            <option value="98">bilişim</option>
+            <option value="41">bitki bilimi</option>
+            <option value="56">biyoloji</option>
+            <option value="45">coğrafya</option>
+            <option value="42">denizcilik</option>
+            <option value="46">dil bilgisi</option>
+            <option value="84">dil bilimi</option>
+            <option value="88">din bilgisi</option>
+            <option value="54">edebiyat</option>
+            <option value="69">eğitim bilimi</option>
+            <option value="66">ekonomi</option>
+            <option value="57">felsefe</option>
+            <option value="58">fizik</option>
+            <option value="63">fizyoloji</option>
+            <option value="80">geometri</option>
+            <option value="44">gök bilimi</option>
+            <option value="53">hayvan bilimi</option>
+            <option value="51">hukuk</option>
+            <option value="60">jeoloji</option>
+            <option value="48">kimya</option>
+            <option value="96">madencilik</option>
+            <option value="65">mantık</option>
+            <option value="52">matematik</option>
+            <option value="64">meteoroloji</option>
+            <option value="67">mimarlık</option>
+            <option value="68">mineraloji</option>
+            <option value="99">mit.</option>
+            <option value="39">müzik</option>
+            <option value="47">ruh bilimi</option>
+            <option value="55">sinema</option>
+            <option value="40">spor</option>
+            <option value="43">tarih</option>
+            <option value="61">teknik</option>
+            <option value="81">teknoloji</option>
+            <option value="87">televizyon</option>
+            <option value="85">tıp</option>
+            <option value="50">ticaret</option>
+            <option value="59">tiyatro</option>
+            <option value="62">toplum bilimi</option>
+        </select>
+        alanına aitse sözü seç
     </div>
 
     <div class="actions">
@@ -110,9 +256,9 @@
     </div>
 
     <div class="filtered-words-holder">
-        <ol id="filtered-words">
+        <pre id="filtered-words-pre">
 
-        </ol>
+        </pre>
     </div>
 
     <div class="info">
