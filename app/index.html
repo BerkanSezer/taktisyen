@@ -255,10 +255,29 @@
         <button onclick="switchpage('.page.app');" class="button">Geri</button>
     </div>
 
-    <div class="filtered-words-holder">
-        <pre id="filtered-words-pre">
+    <div class="pagination-holder">
+        <span id="dict-page-count">0</span>
+        sayfadan
+        <input type="number" id="dictionary-selected-page-number"
+               min="0" max="0" value="0"
+               oninput="paginationPage(this.value);">
+        numaralı olanı gösteriliyor.
+    </div>
 
-        </pre>
+    <div class="filtered-words-holder">
+        <div class="stats-holder">
+            <span id="filtered-words-count">0</span>
+            sözden
+            <span id="selected-page-smallest-number">0</span>.
+            ile
+            <span id="selected-page-biggest-number">0</span>.
+            arası gösteriliyor
+            (bir sayfada <span id="items-per-page"></span> tane)
+        </div>
+
+        <ol id="filtered-words-page-holder">
+
+        </ol>
     </div>
 
     <div class="info">

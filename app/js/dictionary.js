@@ -360,25 +360,75 @@ function applyFieldFilter(input) {
 }
 
 
-function applyFilters() {
-    let wordPre = document.getElementById("filtered-words-pre");
-    wordPre.innerText = "";
+let filteredWords = [];
+const itemsPerPage = 100;
 
+const element_paginationPageSelector = document.getElementById("dictionary-selected-page-number");
+const element_paginationPageCounters = document.getElementById("dict-page-count");
+
+const element_stats_wordCounter = document.getElementById("filtered-words-count");
+
+const element_stats_itemsPerPage = document.getElementById("items-per-page");
+element_stats_itemsPerPage.innerText = itemsPerPage;
+
+function applyFilters() {
     let stage = applyKalipFilters(db);
     stage = applySyllableCountFilters(stage);
     stage = applyToneFilter(stage);
     stage = applyOriginLanguageFilter(stage);
     stage = applyPOSFilter(stage);
     stage = applyFieldFilter(stage);
+    filteredWords = stage;
 
-    const mxl = String(stage.length).length;
+    let wordCount = filteredWords.length;
 
-    let counter = 0;
-    wordPre.innerText =
-        stage.map( entry => {
-            counter += 1;
-            return (
-                `${String(counter).padStart(mxl)}. ${entry.entry}  ${humanReadableHecele(entry.entry, "/")}`
-            );
-        }).join("\n");
+    element_stats_wordCounter.innerText = wordCount;
+
+    let pageCount = Math.ceil(wordCount / itemsPerPage);
+
+    element_paginationPageCounters.innerText = pageCount;
+
+    element_paginationPageSelector.min = 1;
+    element_paginationPageSelector.value = 1;
+    element_paginationPageSelector.max = pageCount;
+
+    paginationPage(1);
+}
+
+const element_filteredWordPageHolder = document.getElementById("filtered-words-page-holder");
+
+const element_stats_pageSmallestNumber = document.getElementById("selected-page-smallest-number");
+const element_stats_pageBiggestNumber = document.getElementById("selected-page-biggest-number");
+
+function paginationPage(pageNumber) {
+
+    /*
+    Page 1 -> hr   1-100, cr   0-100
+    Page 2 -> hr 101-200, cr 100-200
+    Page 3 -> hr 201-300, cr 200-300
+     */
+
+    element_filteredWordPageHolder.innerHTML = "";
+
+    let smallestForThisPage = itemsPerPage*(pageNumber - 1);
+    let wordsOfThisPage = filteredWords.slice(smallestForThisPage, smallestForThisPage+itemsPerPage);
+
+    element_stats_pageSmallestNumber.innerText = smallestForThisPage + 1;
+
+    let fragment = document.createDocumentFragment();
+
+    for (const word of wordsOfThisPage) {
+        let listItem = document.createElement("li");
+        listItem.innerText = word.entry;
+        listItem.id = `dictionary-${word.tdk_id}`;
+        listItem.class = "dictionary-word";
+        fragment.appendChild(listItem);
+    }
+    element_filteredWordPageHolder.start = smallestForThisPage + 1;
+
+    element_stats_itemsPerPage.innerText = fragment.childElementCount;
+    element_stats_pageBiggestNumber.innerText = smallestForThisPage + fragment.childElementCount;
+
+    element_filteredWordPageHolder.appendChild(fragment);
+
 }

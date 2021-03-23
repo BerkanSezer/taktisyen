@@ -262,22 +262,33 @@ nav.menu {
       }
     }
 
+    .pagination-holder {
+      display: flex;
+      justify-content: center;
+      margin: 1em;
+      gap: 0.3em;
+
+      input[type=number] {
+        width: 3em;
+      }
+    }
+
     .filtered-words-holder {
       padding: 1em;
       min-height: 10em;
       border: 1px solid gray;
       box-shadow: inset 0 0 15px 1px gray;
+      font-family: $serif;
+
+      .stats-holder {
+        font-size: 90%;
+      }
 
       span[data-kalip] {
         font-family: $mono;
         color: gray;
         font-size: 90%;
         user-select: none;
-      }
-
-      pre {
-        margin: 0;
-        white-space: pre-line;
       }
     }
 
