@@ -256,12 +256,14 @@
     </div>
 
     <div class="pagination-holder">
+        <button onclick="paginationPrevPage();" class="pagination-button">&laquo;</button>
         <span id="dict-page-count">0</span>
         sayfadan
         <input type="number" id="dictionary-selected-page-number"
                min="0" max="0" value="0"
                oninput="paginationPage(this.value);">
         numaralı olanı gösteriliyor.
+        <button onclick="paginationNextPage();" class="pagination-button">&raquo;</button>
     </div>
 
     <div class="filtered-words-holder">

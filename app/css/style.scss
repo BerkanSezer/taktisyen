@@ -280,6 +280,12 @@ nav.menu {
       input[type=number] {
         width: 3em;
       }
+
+      button.pagination-button {
+        width: 2em;
+        height: 2em;
+        padding: 0;
+      }
     }
 
     .filtered-words-holder {

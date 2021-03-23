@@ -366,7 +366,7 @@ function applyFieldFilter(input) {
 
 
 let filteredWords = [];
-const itemsPerPage = 100;
+let itemsPerPage = 100;
 
 const element_paginationPageSelector = document.getElementById("dictionary-selected-page-number");
 const element_paginationPageCounters = document.getElementById("dict-page-count");
@@ -404,6 +404,16 @@ const element_filteredWordPageHolder = document.getElementById("filtered-words-p
 
 const element_stats_pageSmallestNumber = document.getElementById("selected-page-smallest-number");
 const element_stats_pageBiggestNumber = document.getElementById("selected-page-biggest-number");
+
+function paginationNextPage() {
+    element_paginationPageSelector.value = Number(element_paginationPageSelector.value) + 1;
+    paginationPage(element_paginationPageSelector.value);
+}
+
+function paginationPrevPage() {
+    element_paginationPageSelector.value = Number(element_paginationPageSelector.value) - 1;
+    paginationPage(element_paginationPageSelector.value);
+}
 
 function paginationPage(pageNumber) {
 
