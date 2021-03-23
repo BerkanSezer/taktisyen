@@ -303,7 +303,7 @@ nav.menu {
       }
 
       #word-information {
-        max-width: calc(100vw - 10em);
+        max-width: min(calc(100vw - 10em), 40em);
         border: 1px solid gray;
         border-radius: 3px;
         box-shadow: 0 0 3px 3px lightgray;
