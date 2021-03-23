@@ -187,6 +187,11 @@ fetch(dbURL)
         dictButton.classList.remove("inactive");
         db = data;
 
+        db = db.map(entry => {
+            entry.syllables = hecele(entry.entry).map(computerReadableHeceTypeFinder).map(h => syllableTypeLookup[h]);
+            return entry;
+        });
+
         for (let element of document.getElementsByClassName("dict-size")) {
             element.innerText = db.length;
         }
@@ -213,7 +218,6 @@ const restrictionFunctions = {
 
 
 let computerReadableHeceTypeFinder = hece => isOpen(hece, {medli: true});
-let humanReadableHecele = (word, joiner) => hecele(word).map(computerReadableHeceTypeFinder).map(h => syllableTypeLookup[h] ).join(joiner);
 
 
 function applyKalipFilters(input) {
@@ -223,16 +227,9 @@ function applyKalipFilters(input) {
 
     let filterValue = element_kalipFilterValue.value;
     let restriction = element_kalipFilterRestriction.value;
+    let joiner = (filterValue.search("/") === -1) ? "": "/";
 
-    return input.filter(entry =>
-        restrictionFunctions[restriction](
-            humanReadableHecele(
-                entry.entry,
-                (filterValue.search("/") === -1) ? "": "/"
-            ),
-            filterValue
-        )
-    );
+    return input.filter(entry => restrictionFunctions[restriction](entry.syllables.join(joiner), filterValue));
 }
 
 
