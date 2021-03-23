@@ -196,7 +196,9 @@ fetch(dbURL)
             element.innerText = db.length;
         }
     })
-    .catch(() => { dictButton.classList.add("inactive"); }
+    .catch(() => {
+            dictButton.classList.add("inactive");
+        }
     );
 
 const syllableTypeLookup = {
@@ -227,7 +229,7 @@ function applyKalipFilters(input) {
 
     let filterValue = element_kalipFilterValue.value;
     let restriction = element_kalipFilterRestriction.value;
-    let joiner = (filterValue.search("/") === -1) ? "": "/";
+    let joiner = (filterValue.search("/") === -1) ? "" : "/";
 
     return input.filter(entry => restrictionFunctions[restriction](entry.syllables.join(joiner), filterValue));
 }
@@ -266,10 +268,14 @@ function applyGenericMeaningPropertyEnumFilter(input, enabled, enumDict, filterV
         let matchesFilter = filterValue === "unspecified";
 
         for (let meaning of entry.meanings) {
-            if (processedEntry) { continue; }
+            if (processedEntry) {
+                continue;
+            }
 
             for (let property of meaning.properties) {
-                if (processedEntry) { continue; }
+                if (processedEntry) {
+                    continue;
+                }
 
                 if (filterValue === "unspecified") {
                     if (enumDict.hasOwnProperty(Number(property))) {
@@ -285,7 +291,9 @@ function applyGenericMeaningPropertyEnumFilter(input, enabled, enumDict, filterV
             }
         }
 
-        if (acceptancePolicy === "deny") { matchesFilter = !matchesFilter; }
+        if (acceptancePolicy === "deny") {
+            matchesFilter = !matchesFilter;
+        }
         if (matchesFilter) {
             acceptedEntries.push(entry);
         }
@@ -408,8 +416,8 @@ function paginationPage(pageNumber) {
     element_filteredWordPageHolder.innerHTML = "";
     hidePeepWindow();
 
-    let smallestForThisPage = itemsPerPage*(pageNumber - 1);
-    let wordsOfThisPage = filteredWords.slice(smallestForThisPage, smallestForThisPage+itemsPerPage);
+    let smallestForThisPage = itemsPerPage * (pageNumber - 1);
+    let wordsOfThisPage = filteredWords.slice(smallestForThisPage, smallestForThisPage + itemsPerPage);
 
     element_stats_pageSmallestNumber.innerText = smallestForThisPage + 1;
 
@@ -466,6 +474,7 @@ function peep(event, word) {
             parent.appendChild(child);
         }
     }
+
     const commonProperties = document.createElement("div");
     commonProperties.classList.add("wordpeep-common-properties");
 

@@ -249,7 +249,8 @@ nav.menu {
 
     input[type=checkbox] {
       @include checkbox;
-      &+label {
+
+      & + label {
         border: 1px solid lightgray;
         border-radius: 2px;
         padding: 2px;
@@ -287,13 +288,22 @@ nav.menu {
       border: 1px solid gray;
       box-shadow: inset 0 0 15px 1px gray;
       font-family: $serif;
+      font-size: 1.2em;
 
       .stats-holder {
         font-size: 90%;
       }
 
+      #filtered-words-page-holder {
+        padding-left: 3em;
+
+        & > li {
+          cursor: help;
+        }
+      }
+
       #word-information {
-        width: calc(100vw - 10em);
+        max-width: calc(100vw - 10em);
         border: 1px solid gray;
         border-radius: 3px;
         box-shadow: 0 0 3px 3px lightgray;
@@ -322,7 +332,9 @@ nav.menu {
           display: inline-flex;
           gap: 0.5em;
 
-          .wordpeep-common-property { @include chip; }
+          .wordpeep-common-property {
+            @include chip;
+          }
 
           .wordpeep-cp-prefix::after {
             content: "-";
@@ -352,10 +364,11 @@ nav.menu {
             gap: 0.5em;
             margin-right: 0.5em;
 
-            .wordpeep-meaning-property { @include chip; }
+            .wordpeep-meaning-property {
+              @include chip;
+            }
           }
         }
-
 
 
         h2.wordpeep-proverbs-title {
@@ -370,6 +383,7 @@ nav.menu {
           .wordpeep-example-text {
             display: inline-block;
           }
+
           .wordpeep-writer-name {
             display: inline-block;
             font-weight: bold;
