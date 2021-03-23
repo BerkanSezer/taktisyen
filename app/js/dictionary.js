@@ -224,10 +224,88 @@ const element_kalipFilterRestriction = document.getElementById("kalip-filter-res
 
 const restrictionFunctions = {
     "is": (syll, filter) => syll === filter,
+    "includes": (syll, filter) => syll.includes(filter),
     "startswith": (syll, filter) => syll.startsWith(filter),
     "endswith": (syll, filter) => syll.endsWith(filter)
 };
 
+
+function applyGenericRegexableTextFieldFilter(input, enabled, filterValue, restriction, fieldExtractor) {
+    if (!enabled) {
+        return input;
+    }
+
+    if (restriction === "regex") {
+        try {
+            const regex = RegExp(filterValue);
+            return input.filter(entry => regex.test(fieldExtractor(entry)));
+        } catch (e) {
+            console.log(e);
+            return [];
+        }
+    } else {
+        return input.filter(entry => restrictionFunctions[restriction](
+            fieldExtractor(entry),
+            filterValue
+        ));
+    }
+}
+
+const element_spellingFilterEnabled = document.getElementById("spelling-filter-enabled");
+const element_spellingFilterValue = document.getElementById("spelling-filter-value");
+const element_spellingFilterRestriction = document.getElementById("spelling-filter-restriction");
+
+function applySpellingFilter(input) {
+    return applyGenericRegexableTextFieldFilter(
+        input,
+        element_spellingFilterEnabled.checked,
+        element_spellingFilterValue.value,
+        element_spellingFilterRestriction.value,
+        entry => lowercase(entry.entry, false),
+    );
+}
+
+const element_meaningFilterEnabled = document.getElementById("meaning-filter-enabled");
+const element_meaningFilterValue = document.getElementById("meaning-filter-value");
+const element_meaningFilterRestriction = document.getElementById("meaning-filter-restriction");
+
+function applyMeaningFilter(input) {
+    if (!element_meaningFilterEnabled.checked) {
+        return input;
+    }
+
+    let filterValue = element_meaningFilterValue.value;
+    let filterRestriction = element_meaningFilterRestriction.value;
+    let filterRegex = RegExp(filterValue);
+
+    let acceptedEntries = [];
+    for (const entry of input) {
+        let processedEntry = false;
+        let acceptedEntry = false;
+
+        for (const meaning of entry.meanings) {
+            if (processedEntry) { continue; }
+            if (filterRestriction !== "regex") {
+                acceptedEntry = restrictionFunctions[filterRestriction](
+                    lowercase(meaning.meaning, false),
+                    filterValue,
+                );
+            } else {
+                acceptedEntry = filterRegex.test(
+                    lowercase(meaning.meaning, false)
+                );
+            }
+            if (acceptedEntry) {
+                processedEntry = true;
+            }
+        }
+
+        if (acceptedEntry) {
+            acceptedEntries.push(entry);
+        }
+    }
+    return acceptedEntries;
+}
 
 let computerReadableHeceTypeFinder = hece => isOpen(hece, {medli: true});
 
@@ -393,6 +471,8 @@ function applyFilters() {
     stage = applyOriginLanguageFilter(stage);
     stage = applyPOSFilter(stage);
     stage = applyFieldFilter(stage);
+    stage = applySpellingFilter(stage);
+    stage = applyMeaningFilter(stage);
     filteredWords = stage;
 
     let wordCount = filteredWords.length;

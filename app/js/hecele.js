@@ -190,3 +190,28 @@ function getLetters(syllable) {
     }
     return letters;
 }
+
+function lowercase(word, removeUnknowns=true, removeCircumflex=true) {
+    let aCircumflexReplacement = removeCircumflex ? "a" : "â";
+    let iCircumflexReplacement = removeCircumflex ? "i" : "î";
+    let uCircumflexReplacement = removeCircumflex ? "u" : "û";
+
+    let reconstructedWord = "";
+    for (const letter of word) {
+        let lower = letter.toLowerCase();
+        if (letter === "I") {
+            reconstructedWord = reconstructedWord.concat("ı");
+        } else if (letter === "İ") {
+            reconstructedWord = reconstructedWord.concat("i");
+        } else if (["â", "Â"].includes(letter)) {
+            reconstructedWord = reconstructedWord.concat(aCircumflexReplacement);
+        } else if (["î", "Î"].includes(letter)) {
+            reconstructedWord = reconstructedWord.concat(iCircumflexReplacement);
+        } else if (["û", "Û"].includes(letter)) {
+            reconstructedWord = reconstructedWord.concat(uCircumflexReplacement);
+        } else if (alphabet.includes(lower) || !removeUnknowns) {
+            reconstructedWord = reconstructedWord.concat(lower);
+        }
+    }
+    return reconstructedWord;
+}

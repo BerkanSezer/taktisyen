@@ -74,11 +74,43 @@
 </div>
 
 <div class="page inactive dictionary">
+    <div class="filter" id="spelling-filter">
+        <input type="checkbox" id="spelling-filter-enabled">
+        <label for="spelling-filter-enabled">Etkinleştir</label>
+
+        Sözün yazımı
+        <input type="text" id="spelling-filter-value">
+        <select id="spelling-filter-restriction">
+            <option value="is">ile aynen eşleşirse</option>
+            <option value="includes" selected>içerirse</option>
+            <option value="startswith">ile başlarsa</option>
+            <option value="endswith">ile biterse</option>
+            <option value="regex">kurallı ifadesiyle eşleşirse</option>
+        </select>
+        sözü içer
+    </div>
+
+    <div class="filter" id="meaning-filter">
+        <input type="checkbox" id="meaning-filter-enabled">
+        <label for="meaning-filter-enabled">Etkinleştir</label>
+
+        Sözün anlamlarından biri
+        <input type="text" id="meaning-filter-value">
+        <select id="meaning-filter-restriction">
+            <option value="is">ile aynen eşleşirse</option>
+            <option value="includes" selected>içerirse</option>
+            <option value="startswith">ile başlarsa</option>
+            <option value="endswith">ile biterse</option>
+            <option value="regex">kurallı ifadesiyle eşleşirse</option>
+        </select>
+        sözü içer
+    </div>
+
     <div class="filter" id="kalip-filter">
         <input type="checkbox" id="kalip-filter-enabled">
         <label for="kalip-filter-enabled">Etkinleştir</label>
 
-        Sözcük heceleri
+        Sözün heceleri
         <input type="text" placeholder="örn: -. veya ././-/-" id="kalip-filter-value" pattern="[.\-\/]+" data-kalip>
         kalıbıyla
         <select id="kalip-filter-restriction">
@@ -86,17 +118,17 @@
             <option value="startswith">başlarsa</option>
             <option value="endswith">biterse</option>
         </select>
-        sözü seç
+        sözü içer
     </div>
 
     <div class="filter" id="syllable-count-filter">
         <input type="checkbox" id="syllable-count-filter-enabled">
         <label for="syllable-count-filter-enabled">Etkinleştir</label>
-        Hece sayısı
+        Sözün hece sayısı
         <input type="number" id="syllable-count-filter-bound-1" min="1" max="43" value="1">
         ile
         <input type="number" id="syllable-count-filter-bound-2" min="1" max="43" value="43">
-        arasındaysa sözü seç
+        arasındaysa sözü içer
     </div>
     
     <div class="filter" id="origin-language-filter">
@@ -148,7 +180,7 @@
         <input type="checkbox" id="tone-filter-enabled">
         <label for="tone-filter-enabled">Etkinleştir</label>
 
-        Anlamlarından birinin üslubu
+        Sözün anlamlarından birinin üslubu
         <select id="tone-filter-value">
             <option value="unspecified" selected>belirtilmemiş</option>
             <option value="31">eskimiş</option>
@@ -172,7 +204,7 @@
         <input type="checkbox" id="pos-filter-enabled">
         <label for="pos-filter-enabled">Etkinleştir</label>
 
-        Anlamlarından birinin türü, işlevi veya kullanımı
+        Sözün anlamlarından birinin türü, işlevi veya kullanımı
         <select id="pos-filter-value">
             <option value="unspecified" selected>belirtilmemiş</option>
             <option value="19">isim</option>
@@ -201,7 +233,7 @@
         <input type="checkbox" id="field-filter-enabled">
         <label for="field-filter-enabled">Etkinleştir</label>
         
-        Anlamlardan biri
+        Sözün anlamlarından biri
         <select id="field-filter-value">
             <option value="unspecified">belirtilmemiş</option>
             <option value="49">anatomi</option>
@@ -247,7 +279,7 @@
             <option value="59">tiyatro</option>
             <option value="62">toplum bilimi</option>
         </select>
-        alanına aitse sözü seç
+        alanına aitse sözü içer
     </div>
 
     <div class="actions">
