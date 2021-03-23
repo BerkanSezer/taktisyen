@@ -284,6 +284,57 @@ nav.menu {
         font-size: 90%;
       }
 
+      #word-information {
+        width: calc(100vw - 10em);
+        border: 1px solid gray;
+        border-radius: 3px;
+        box-shadow: 0 0 3px 3px lightgray;
+        position: absolute;
+        background: white;
+        padding: 2em;
+        overflow: auto;
+
+        button.wordpeep-close-button {
+          position: absolute;
+          right: 1em;
+          top: 1em;
+          border-radius: 1em;
+          height: 2em;
+          width: 2em;
+          padding: 0;
+        }
+
+        h1.wordpeep-title {
+          margin-top: 0;
+        }
+
+        .wordpeep-common-properties {
+          display: flex;
+          $property-gap: 1em;
+          gap: calc(#{$property-gap} / 2);
+
+          span.wordpeep-common-property:not(:first-child)::before {
+            content: "\5C";
+            margin-right: calc(#{$property-gap} / 2);
+          }
+        }
+
+        h2.wordpeep-examples-title, h2.wordpeep-proverbs-title {
+          font-size: 1em;
+        }
+
+        .wordpeep-example {
+          .wordpeep-example-text {
+            display: inline-block;
+          }
+          .wordpeep-writer-name {
+            display: inline-block;
+            font-weight: bold;
+            margin-left: 1em;
+          }
+        }
+      }
+
       span[data-kalip] {
         font-family: $mono;
         color: gray;
