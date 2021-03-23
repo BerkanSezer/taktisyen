@@ -72,6 +72,14 @@ body {
   }
 }
 
+@mixin chip {
+  border: 1px solid gray;
+  padding: 0 0.4em;
+  border-radius: 0.5em;
+  box-shadow: 0 0 2px 2px lightgray;
+  font-style: italic;
+}
+
 nav.menu {
   display: flex;
   justify-content: space-between;
@@ -296,7 +304,7 @@ nav.menu {
 
         button.wordpeep-close-button {
           position: absolute;
-          right: 1em;
+          left: 1em;
           top: 1em;
           border-radius: 1em;
           height: 2em;
@@ -305,22 +313,57 @@ nav.menu {
         }
 
         h1.wordpeep-title {
-          margin-top: 0;
+          margin-left: 3rem;
+          display: inline;
         }
 
         .wordpeep-common-properties {
-          display: flex;
-          $property-gap: 1em;
-          gap: calc(#{$property-gap} / 2);
+          margin-left: 1em;
+          display: inline-flex;
+          gap: 0.5em;
 
-          span.wordpeep-common-property:not(:first-child)::before {
-            content: "\5C";
-            margin-right: calc(#{$property-gap} / 2);
+          .wordpeep-common-property { @include chip; }
+
+          .wordpeep-cp-prefix::after {
+            content: "-";
+          }
+
+          .wordpeep-cp-suffix::before {
+            content: "-";
           }
         }
 
-        h2.wordpeep-examples-title, h2.wordpeep-proverbs-title {
-          font-size: 1em;
+        .wordpeep-meaning {
+          &:not(:first-child) {
+            margin-top: 1.5em;
+          }
+
+          h2.wordpeep-examples-title {
+            font-size: 1em;
+            margin: 0;
+
+            &::after {
+              content: ":";
+            }
+          }
+
+          .wordpeep-meaning-properties-list {
+            display: inline-flex;
+            gap: 0.5em;
+            margin-right: 0.5em;
+
+            .wordpeep-meaning-property { @include chip; }
+          }
+        }
+
+
+
+        h2.wordpeep-proverbs-title {
+          margin-bottom: 0;
+
+          &::after {
+            content: ":";
+          }
         }
 
         .wordpeep-example {

@@ -460,10 +460,11 @@ function peep(event, word) {
     }
     fragment.appendChild(title);
 
-    function adder(parent, tagName, field) {
+    function adder(parent, tagName, field, className) {
         if (field) {
             const child = document.createElement(tagName);
             child.classList.add("wordpeep-common-property");
+            child.classList.add(className);
             child.innerText = field;
             parent.appendChild(child);
         }
@@ -471,10 +472,10 @@ function peep(event, word) {
     const commonProperties = document.createElement("div");
     commonProperties.classList.add("wordpeep-common-properties");
 
-    adder(commonProperties, "span", word.original);
-    adder(commonProperties, "span", word.pronunciation);
-    adder(commonProperties, "span", word.prefix);
-    adder(commonProperties, "span", word.suffix);
+    adder(commonProperties, "span", word.original, "wordpeep-cp-original");
+    adder(commonProperties, "span", word.pronunciation, "wordpeep-cp-pronunciation");
+    adder(commonProperties, "span", word.prefix, "wordpeep-cp-prefix");
+    adder(commonProperties, "span", word.suffix, "wordpeep-cp-suffix");
 
     adder(commonProperties, "span", word.plural ? "çoğul" : false);
     adder(commonProperties, "span", word.proper ? "özel" : false);
@@ -487,16 +488,11 @@ function peep(event, word) {
         const meaningElement = document.createElement("li");
         meaningElement.classList.add("wordpeep-meaning");
 
-        const meaningText = document.createElement("p");
-        meaningText.classList.add("wordpeep-meaning-text");
-        meaningText.innerText = meaning.meaning;
-        meaningElement.appendChild(meaningText);
-
         if (meaning.properties.length !== 0) {
-            const meaningPropertiesContainer = document.createElement("ul");
+            const meaningPropertiesContainer = document.createElement("div");
             meaningPropertiesContainer.classList.add("wordpeep-meaning-properties-list");
             for (const property of meaning.properties) {
-                const meaningPropertyElement = document.createElement("li");
+                const meaningPropertyElement = document.createElement("span");
                 meaningPropertyElement.classList.add("wordpeep-meaning-property");
                 meaningPropertyElement.innerText = MeaningProperties[property];
                 meaningPropertiesContainer.appendChild(meaningPropertyElement);
@@ -504,13 +500,18 @@ function peep(event, word) {
             meaningElement.appendChild(meaningPropertiesContainer);
         }
 
+        const meaningText = document.createElement("span");
+        meaningText.classList.add("wordpeep-meaning-text");
+        meaningText.innerText = meaning.meaning;
+        meaningElement.appendChild(meaningText);
+
         if (meaning.examples.length !== 0) {
             const examplesTitle = document.createElement("h2");
             examplesTitle.classList.add("wordpeep-examples-title");
             examplesTitle.innerText = "Örnek kullanımlar";
             meaningElement.appendChild(examplesTitle);
 
-            const examplesContainer = document.createElement("ol");
+            const examplesContainer = document.createElement("ul");
             examplesContainer.classList.add("wordpeep-examples-list");
             for (const example of meaning.examples) {
                 const exampleElement = document.createElement("li");
