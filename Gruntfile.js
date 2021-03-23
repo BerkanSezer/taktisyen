@@ -82,6 +82,6 @@ module.exports = function (grunt) {
 
     grunt.registerTask(
         "debug",
-        ["jshint", "clean:dist", "concat", "sass", "copy:html", "inline"]
+        ["jshint", "clean:dist", "concat", "sass", "copy:html"]
     );
 };

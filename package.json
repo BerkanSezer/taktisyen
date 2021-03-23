@@ -1,6 +1,6 @@
 {
   "name": "taktisyen",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "description": "Syllabication and analysis of Turkish poems written in aruz prosody.",
   "scripts": {
     "build": "grunt",

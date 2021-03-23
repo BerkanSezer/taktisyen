@@ -2,7 +2,7 @@ const dbURL = "https://cdn.taktisyen.tk/data/db.json";
 const dictButton = document.getElementById("dictionary-access-button");
 
 const OriginLanguages = {
-    0: "Belirtilmemiş veya Orijinal",
+    0: "Orijinal veya Belirtilmemiş",
     19: "Bileşik",
 
     11: "Arapça",
@@ -30,7 +30,7 @@ const OriginLanguages = {
 
     392: "Fince",
     393: "Rumca",
-    395: "Soğdanca",
+    395: "Soğdca",
     486: "Sırpça",
     420: "Korece",
 };
@@ -184,17 +184,27 @@ fetch(dbURL)
         return response.json();
     })
     .then((data) => {
-        dictButton.classList.remove("inactive");
         db = data;
 
-        db = db.map(entry => {
-            entry.syllables = hecele(entry.entry).map(computerReadableHeceTypeFinder).map(h => syllableTypeLookup[h]);
-            return entry;
-        });
-
-        for (let element of document.getElementsByClassName("dict-size")) {
-            element.innerText = db.length;
+        const chunkSize = 2000;
+        let index = 0;
+        function processChunk() {
+            let cnt = chunkSize;
+            while (cnt-- && index < db.length) {
+                db[index].syllables = hecele(db[index].entry).map(computerReadableHeceTypeFinder).map(h => syllableTypeLookup[h]); /* jshint ignore:line */
+                ++index;
+            }
+            if (index < db.length) {
+                setTimeout(processChunk, 1);
+            } else {
+                // Finished
+                for (let element of document.getElementsByClassName("dict-size")) {
+                    element.innerText = db.length;
+                }
+                dictButton.classList.remove("inactive");
+            }
         }
+        processChunk();
     })
     .catch(() => {
             dictButton.classList.add("inactive");
