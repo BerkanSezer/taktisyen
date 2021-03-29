@@ -332,3 +332,4 @@ retrieveOptionsFromDefaultStorage();
 on_click_new();
 
 switchpage(".page.app");
+document.getElementById("viewport").hidden = false;
