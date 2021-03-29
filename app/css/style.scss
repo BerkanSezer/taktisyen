@@ -143,6 +143,10 @@ nav.menu {
       resize: none;
       overflow: hidden;
       padding: 0;
+
+      &::placeholder {
+        font-style: italic;
+      }
     }
 
     #kalip-output {
