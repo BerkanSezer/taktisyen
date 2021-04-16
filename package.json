@@ -1,27 +1,28 @@
 {
   "name": "taktisyen",
-  "version": "2.2.5",
+  "version": "3.0.0",
   "description": "Syllabication and analysis of Turkish poems written in aruz prosody.",
   "scripts": {
-    "build": "grunt",
-    "debug": "grunt debug"
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "start": "sirv public --no-clear"
   },
   "author": "Emre Özcan",
   "license": "MIT",
   "private": true,
-  "dependencies": {},
   "devDependencies": {
-    "@babel/core": "^7.10.5",
-    "@babel/preset-env": "^7.10.4",
-    "grunt": "^1.2.1",
-    "grunt-babel": "^8.0.0",
-    "grunt-contrib-clean": "^2.0.0",
-    "grunt-contrib-concat": "^1.0.1",
-    "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-jshint": "^2.1.0",
-    "grunt-contrib-sass": "^1.0.0",
-    "grunt-inline": "^0.3.7",
-    "grunt-zip": "^0.18.2",
-    "sass": "^1.26.10"
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-node-resolve": "^11.0.0",
+    "node-sass": "^5.0.0",
+    "rollup": "^2.3.4",
+    "rollup-plugin-css-only": "^3.1.0",
+    "rollup-plugin-livereload": "^2.0.0",
+    "rollup-plugin-svelte": "^7.0.0",
+    "rollup-plugin-terser": "^7.0.0",
+    "svelte": "^3.0.0",
+    "svelte-preprocess-sass": "^1.0.0"
+  },
+  "dependencies": {
+    "sirv-cli": "^1.0.0"
   }
 }

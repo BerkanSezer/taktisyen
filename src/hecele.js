@@ -43,6 +43,11 @@ const kalipNames = {
     "akakaakkakakaakk": "Me'fâ'i'lun/fe'i'lâ'tün/me'fâ'i'lun/fe'i'lâ'tün",
 };
 let stopCharacters = _defaultStopCharacters;
+const humanReadableSyllTypeLookupTable = Object.freeze({
+    1: ".",
+    2: "-",
+    3: "-."
+});
 
 function isVowel(letter) {
     return vowels.includes(letter);
@@ -121,7 +126,7 @@ function countVowels(text) {
     return vowel_count;
 }
 
-function isOpen(syllable, options) {
+function getSyllType(syllable, options={ignoreOverride: false, medli: false}) {
     let letters = getLetters(syllable);
 
     if (!options.ignoreOverride) {
@@ -214,4 +219,20 @@ function lowercase(word, removeUnknowns=true, removeCircumflex=true) {
         }
     }
     return reconstructedWord;
+}
+
+function findPresetPattern(sylledHumanPattern) {
+    let query = sylledHumanPattern
+            .join("")
+            .replace(/1/g, "a")
+            .replace(/2/g, "k");
+    if (query in kalipNames) {
+        return kalipNames[query];
+    } else {
+        return null;
+    }
+}
+
+export {
+    hecele, getSyllType, humanReadableSyllTypeLookupTable, findPresetPattern
 }
