@@ -126,7 +126,7 @@ function countVowels(text) {
     return vowel_count;
 }
 
-function getSyllType(syllable, options={ignoreOverride: false, medli: false}) {
+function getSyllType(syllable, options = {ignoreOverride: false, medli: false}) {
     let letters = getLetters(syllable);
 
     if (!options.ignoreOverride) {
@@ -196,7 +196,7 @@ function getLetters(syllable) {
     return letters;
 }
 
-function lowercase(word, removeUnknowns=true, removeCircumflex=true) {
+function lowercase(word, removeUnknowns = true, removeCircumflex = true) {
     let aCircumflexReplacement = removeCircumflex ? "a" : "â";
     let iCircumflexReplacement = removeCircumflex ? "i" : "î";
     let uCircumflexReplacement = removeCircumflex ? "u" : "û";
@@ -223,9 +223,9 @@ function lowercase(word, removeUnknowns=true, removeCircumflex=true) {
 
 function findPresetPattern(sylledHumanPattern) {
     let query = sylledHumanPattern
-            .join("")
-            .replace(/1/g, "a")
-            .replace(/2/g, "k");
+        .join("")
+        .replace(/1/g, "a")
+        .replace(/2/g, "k");
     if (query in kalipNames) {
         return kalipNames[query];
     } else {
@@ -234,5 +234,5 @@ function findPresetPattern(sylledHumanPattern) {
 }
 
 export {
-    hecele, getSyllType, humanReadableSyllTypeLookupTable, findPresetPattern
+    hecele, getSyllType, humanReadableSyllTypeLookupTable, findPresetPattern, _defaultStopCharacters
 }

@@ -1,28 +1,32 @@
 <script>
     import {findPresetPattern, getSyllType, hecele, humanReadableSyllTypeLookupTable} from "./hecele.js";
     import Syll from "./Syll.svelte";
+    import {fileData} from "./fileData.js";
 
-    let patternInput = "";
     let pattern;
-    $: pattern = hecele(patternInput).filter(Boolean).map(getSyllType);
+    $: pattern = hecele($fileData.meta.pattern || "").filter(Boolean).map(syll => ({
+        type: getSyllType(syll),
+        text: syll
+    }));
 
     function changePatternWithPreset() {
         let preset = findPresetPattern(pattern);
         if (preset !== null) {
-            patternInput = preset;
+            $fileData.meta.pattern = preset;
         }
     }
 
-    let textInput = "";
     let sylledText;
-    $: sylledText = textInput.split("\n").map(line => hecele(line).filter(Boolean).map(syll => ({
+    $: sylledText = $fileData.text.split("\n").map(line => hecele(line).filter(Boolean).map(syll => ({
         type: getSyllType(syll),
         text: syll
     })));
 </script>
 
 <style lang="scss">
-    .grid-container {
+    .container {
+        margin: 0.4em;
+
         display: grid;
         grid-template-areas:
         "kalip-input-label   kalip-output-label"
@@ -57,11 +61,12 @@
 
     span.separator::after {
         content: "\5C";
-        color: gray;
+        margin: 0 .1em;
     }
 
     input[type=text], textarea, #text-output, #kalip-output {
         @include text-input;
+        font-size: 1rem;
     }
 
     #kalip-output {
@@ -72,8 +77,12 @@
         box-shadow: inset 0 0 4px lightgray;
     }
 
-    *[id^="text"], #hidden-div {
+    *[id^="text"], #kalip-input, #hidden-div {
         font-family: serif;
+    }
+
+    label {
+        font-family: sans-serif;
     }
 
     #hidden-div {
@@ -83,11 +92,11 @@
     }
 </style>
 
-<div class="grid-container">
+<div class="container">
     <label for="kalip-input">Kalıp Örneği</label>
     <input type="text"
            id="kalip-input"
-           bind:value={patternInput}
+           bind:value={$fileData.meta.pattern}
            on:focusout={changePatternWithPreset}
     >
 
@@ -95,7 +104,7 @@
     <div id="kalip-output">
         {#if pattern.length > 0}
             {#each pattern as patternSyll}
-                <Syll type={patternSyll}>{humanReadableSyllTypeLookupTable[patternSyll]}</Syll>
+                <Syll type={patternSyll.type}>{humanReadableSyllTypeLookupTable[patternSyll.type]}</Syll>
             {/each}
         {/if}
     </div>
@@ -105,17 +114,16 @@
             id="text-input"
             placeholder="Bütün dünyâya küskündüm, dün akşam pek bunalmıştım..."
             rows="5"
-            bind:value={textInput}
+            bind:value={$fileData.text}
     ></textarea>
 
     <label for="text-output">Metin Analizi</label>
     <div id="text-output">
         {#each sylledText as line}
-            <span class="separator"></span>
             {#each line as syllable, syllNumber}
                 <Syll
                         type={syllable.type}
-                        errored={pattern.length > syllNumber && syllable.type !== pattern[syllNumber]}
+                        errored={pattern.length > syllNumber && syllable.type !== pattern[syllNumber].type}
                 >{syllable.text}</Syll>
                 <span class="separator"></span>
             {/each}

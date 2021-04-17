@@ -24,7 +24,7 @@
     }
 
     span.errored {
-        border: 1px dashed red;
+        border: 0.15em dashed red;
     }
 </style>
 
