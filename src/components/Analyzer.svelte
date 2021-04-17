@@ -1,7 +1,7 @@
 <script>
-    import {findPresetPattern, getSyllType, hecele, humanReadableSyllTypeLookupTable} from "./hecele.js";
+    import {findPresetPattern, getSyllType, hecele, humanReadableSyllTypeLookupTable} from "../shared/hecele.js";
     import Syll from "./Syll.svelte";
-    import {fileData} from "./fileData.js";
+    import {fileData} from "../stores/fileData.js";
 
     let pattern;
     $: pattern = hecele($fileData.meta.pattern || "").filter(Boolean).map(syll => ({

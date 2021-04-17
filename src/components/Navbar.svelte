@@ -1,5 +1,5 @@
 <script>
-    import {fileData} from "./fileData.js";
+    import {fileData} from "../stores/fileData.js";
 </script>
 
 <style lang="scss">

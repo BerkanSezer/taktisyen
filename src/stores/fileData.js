@@ -1,5 +1,5 @@
 import {writable} from "svelte/store";
-import {_defaultStopCharacters} from "./hecele";
+import {_defaultStopCharacters} from "../shared/hecele";
 
 export const defaultData = Object.freeze({
     text: "",
