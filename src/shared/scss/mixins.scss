@@ -1,0 +1,59 @@
+@mixin text-input {
+    border-radius: 5px;
+    border: 2px groove lightgray;
+    padding: 0.2em 0.4em;
+}
+
+@mixin button {
+    @include text-input;
+    font-size: 1rem;
+    padding: 0.1em 1.8em;
+    background-color: rgb(240, 240, 240);
+    user-select: none;
+    &:hover {
+        background-color: white;
+    }
+    &:active {
+        box-shadow: inset 0 0 8px lightgrey;
+    }
+}
+
+@mixin checkbox {
+  display: none;
+  & + label::before {
+    display: inline-block;
+    content: "\00A0";
+    font-size: 100%;
+    line-height: 1em;
+    text-align: center;
+    border: 1px solid gray;
+    border-radius: 0.15em;
+    width: 1em;
+    height: 1em;
+    margin-right: 0.5em;
+  }
+  &:hover + label {
+    $background-color: rgb(220, 220, 220);
+    box-shadow: 0 0 3px 3px $background-color;
+    background-color: $background-color;
+  }
+  &:disabled + label::before {
+    $background-color: darkgrey;
+    box-shadow: 0 0 3px 3px $background-color;
+    background-color: $background-color;
+  }
+  &:checked + label::before {
+    content: "\2713";
+  }
+  &:active + label::before {
+    background-color: gray;
+  }
+}
+
+@mixin chip {
+  border: 1px solid gray;
+  padding: 0 0.4em;
+  border-radius: 0.5em;
+  box-shadow: 0 0 2px 2px lightgray;
+  font-style: italic;
+}

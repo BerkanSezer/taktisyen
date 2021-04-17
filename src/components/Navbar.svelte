@@ -1,5 +1,6 @@
 <script>
     import {fileData} from "../stores/fileData.js";
+    import {page} from "../stores/activePage.js";
 </script>
 
 <style lang="scss">
@@ -38,5 +39,6 @@
     <button on:click={fileData.promptNew}>Yeni</button>
     <button on:click={fileData.promptSave}>Kaydet...</button>
     <button on:click={fileData.promptLoad}>Aç...</button>
+    <button on:click={() => {$page = "options";}}>Seçenekler...</button>
     <span class="spacer"></span>
 </nav>

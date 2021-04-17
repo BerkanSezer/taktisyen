@@ -1,5 +1,4 @@
 const _defaultStopCharacters = "-,;:.?!*'\"/\\[]{}()"; // Used when loading files without metadata
-const _defaultFilename = "Taktisyen Şiiri.txt";
 const shortVowels = "aeıioöuüAEIİOÖUÜ";
 const longVowels = "âêîôûÂÊÎÔÛ";
 const vowels = shortVowels.concat(longVowels);
@@ -42,7 +41,6 @@ const kalipNames = {
     "kakkkakkkakkkakk": "Fâ'i'lâ'tün/fâ'i'lâ'tün/fâ'i'lâ'tün/fâ'i'lâ'tün",
     "akakaakkakakaakk": "Me'fâ'i'lun/fe'i'lâ'tün/me'fâ'i'lun/fe'i'lâ'tün",
 };
-let stopCharacters = _defaultStopCharacters;
 const humanReadableSyllTypeLookupTable = Object.freeze({
     1: ".",
     2: "-",
@@ -76,7 +74,7 @@ function areThereLettersBetween(text, start, end) {
     return false;
 }
 
-function previousLetter(text, end) {
+function previousLetter(text, end, stopCharacters=_defaultStopCharacters) {
     let index = end - 1;
     const acceptableStops = alphabet.concat(stopCharacters);
     while (true) {
@@ -91,7 +89,7 @@ function previousLetter(text, end) {
     return index;
 }
 
-function hecele(text) {
+function hecele(text, stopCharacters=_defaultStopCharacters) {
     let currentVowelIndex = nextVowel(text, -1);
     let syllables = [];
     let lastSyllableIndex = 0;
@@ -104,7 +102,7 @@ function hecele(text) {
         } else if (!areThereLettersBetween(text, currentVowelIndex, nextVowelIndex)) { // There are two neighbor vowels (sa/at)
             _returnUntil = nextVowelIndex;
         } else {
-            _returnUntil = previousLetter(text, nextVowelIndex);
+            _returnUntil = previousLetter(text, nextVowelIndex, stopCharacters);
         }
 
         syllables.push(text.slice(lastSyllableIndex, _returnUntil));
@@ -126,10 +124,10 @@ function countVowels(text) {
     return vowel_count;
 }
 
-function getSyllType(syllable, options = {ignoreOverride: false, medli: false}) {
+function getSyllType(syllable, stopCharacters=_defaultStopCharacters, medli=true, ignoreOverride=false) {
     let letters = getLetters(syllable);
 
-    if (!options.ignoreOverride) {
+    if (!ignoreOverride) {
         if (syllable.includes("[1]")) {
             return 1;
         } else if (syllable.includes("[2]")) {
@@ -137,7 +135,7 @@ function getSyllType(syllable, options = {ignoreOverride: false, medli: false}) 
         } else if (syllable.includes("[3!]")) {
             return 3;
         } else if (syllable.includes("[3]")) {
-            if (options.medli) {
+            if (medli) {
                 return 3;
             }
             return 2;
@@ -145,12 +143,12 @@ function getSyllType(syllable, options = {ignoreOverride: false, medli: false}) 
     }
 
     // Medli (-.) (fr = 3)
-    if (options.medli && isMedli(letters)) {
+    if (medli && isMedli(letters)) {
         return 3;
     }
 
     // Açık (.) (fr = 1)
-    if (shortVowels.includes(letters[previousLetter(letters, letters.length)])) {
+    if (shortVowels.includes(letters[previousLetter(letters, letters.length, stopCharacters)])) {
         return 1;
     }
 

@@ -1,13 +1,33 @@
 <script>
-    import {findPresetPattern, getSyllType, hecele, humanReadableSyllTypeLookupTable} from "../shared/hecele.js";
+    import {
+        findPresetPattern,
+        getSyllType as _getSyllType,
+        hecele as _hecele,
+        humanReadableSyllTypeLookupTable
+    } from "../shared/js/hecele.js";
     import Syll from "./Syll.svelte";
     import {fileData} from "../stores/fileData.js";
 
+    const hecele = txt => _hecele(txt, $fileData.meta.stoppingCharacters)
+    const getSyllType = (syll, ignoreOverride) => _getSyllType(
+        syll,
+        $fileData.meta.stoppingCharacters,
+        $fileData.meta.medli,
+        ignoreOverride
+    )
+
     let pattern;
-    $: pattern = hecele($fileData.meta.pattern || "").filter(Boolean).map(syll => ({
-        type: getSyllType(syll),
-        text: syll
-    }));
+    $: {
+        pattern = hecele($fileData.meta.pattern || "")
+            .filter(Boolean)
+            .map(syll => ({
+                type: getSyllType(syll, true),
+                text: syll
+            }));
+        if (pattern.length && $fileData.meta.assumeLastClosed) {
+            pattern[pattern.length - 1].type = 2;
+        }
+    }
 
     function changePatternWithPreset() {
         let preset = findPresetPattern(pattern);
@@ -17,16 +37,28 @@
     }
 
     let sylledText;
-    $: sylledText = $fileData.text.split("\n").map(line => hecele(line).filter(Boolean).map(syll => ({
-        type: getSyllType(syll),
-        text: syll
-    })));
+    $: {
+        sylledText = $fileData.text
+            .split("\n")
+            .map(line => {
+                let syllables = hecele(line)
+                    .filter(Boolean)
+                    .map(syll => ({
+                        type: getSyllType(syll, false),
+                        text: syll
+                    }));
+                if (syllables.length && $fileData.meta.assumeLastClosed) {
+                    syllables[syllables.length - 1].type = 2;
+                }
+                return syllables;
+            });
+    }
 </script>
 
 <style lang="scss">
-    .container {
-        margin: 0.4em;
+    @import "src/shared/scss/mixins";
 
+    .container {
         display: grid;
         grid-template-areas:
         "kalip-input-label   kalip-output-label"
@@ -46,12 +78,6 @@
         ##{$holder} {
             grid-area: #{$holder}-element;
         }
-    }
-
-    @mixin text-input {
-        border-radius: 5px;
-        border: 2px groove lightgray;
-        padding: 0.2em 0.4em;
     }
 
     textarea, #hidden-div {
