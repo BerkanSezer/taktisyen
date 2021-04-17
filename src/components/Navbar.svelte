@@ -55,6 +55,11 @@
     span.spacer {
         margin-left: auto;
     }
+
+    span.separator {
+        border-right: 1px solid gray;
+        margin: 0 0.5em;
+    }
 </style>
 
 <nav>
@@ -65,6 +70,7 @@
             <button on:click={fileData.promptLoad}>Aç...</button>
         </div>
     </div>
+    <span class="separator"></span>
     <button on:click={() => {$page = "analyzer";}}>Analizci</button>
     <button on:click={() => {$page = "options";}}>Seçenekler</button>
     <button on:click={() => {$page = "settings";}}>Ayarlar</button>
