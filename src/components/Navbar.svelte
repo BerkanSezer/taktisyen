@@ -22,11 +22,11 @@
                 content: attr(data-title);
             }
 
-            & > div {
+            & > .buttons-container {
                 display: none;
             }
 
-            &.activate > div {
+            &.activate > .buttons-container {
                 position: absolute;
                 left: 0.5em;
                 top: 1.5em;
@@ -64,7 +64,7 @@
 
 <nav>
     <div data-title="Dosya" class:activate={fileMenuActivated} on:click={() => fileMenuActivated = !fileMenuActivated}>
-        <div>
+        <div class="buttons-container">
             <button on:click={fileData.promptNew}>Yeni</button>
             <button on:click={fileData.promptSave}>Kaydet...</button>
             <button on:click={fileData.promptLoad}>Aç...</button>
@@ -72,7 +72,9 @@
     </div>
     <span class="separator"></span>
     <button on:click={() => {$page = "analyzer";}}>Analizci</button>
+    <button on:click={() => {$page = "dictionary";}} disabled>Sözlük</button>
     <button on:click={() => {$page = "options";}}>Seçenekler</button>
     <button on:click={() => {$page = "settings";}}>Ayarlar</button>
+    <button on:click={() => {$page = "about";}}>Hakkında</button>
     <span class="spacer"></span>
 </nav>

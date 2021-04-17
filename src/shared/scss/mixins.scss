@@ -78,6 +78,10 @@
 
     $shadow: 0 0 4px rgb(120, 120, 120);
 
+    &[disabled] {
+        cursor: not-allowed !important;
+    }
+
     &:hover {
         box-shadow: $shadow;
         cursor: pointer;
