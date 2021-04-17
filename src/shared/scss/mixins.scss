@@ -10,6 +10,7 @@
     padding: 0.1em 1.8em;
     background-color: rgb(240, 240, 240);
     user-select: none;
+    cursor: pointer;
     &:hover {
         background-color: white;
     }
@@ -19,41 +20,70 @@
 }
 
 @mixin checkbox {
-  display: none;
-  & + label::before {
-    display: inline-block;
-    content: "\00A0";
-    font-size: 100%;
-    line-height: 1em;
-    text-align: center;
-    border: 1px solid gray;
-    border-radius: 0.15em;
-    width: 1em;
-    height: 1em;
-    margin-right: 0.5em;
-  }
-  &:hover + label {
-    $background-color: rgb(220, 220, 220);
-    box-shadow: 0 0 3px 3px $background-color;
-    background-color: $background-color;
-  }
-  &:disabled + label::before {
-    $background-color: darkgrey;
-    box-shadow: 0 0 3px 3px $background-color;
-    background-color: $background-color;
-  }
-  &:checked + label::before {
-    content: "\2713";
-  }
-  &:active + label::before {
-    background-color: gray;
-  }
+    display: none;
+    & + label::before {
+        display: inline-block;
+        content: "\00A0";
+        font-size: 100%;
+        line-height: 1em;
+        text-align: center;
+        border: 1px solid gray;
+        border-radius: 0.15em;
+        width: 1em;
+        height: 1em;
+        margin-right: 0.5em;
+    }
+    & + label {
+        cursor: pointer;
+    }
+    &:hover + label {
+        $background-color: rgb(220, 220, 220);
+        box-shadow: 0 0 3px 3px $background-color;
+        background-color: $background-color;
+    }
+    &:disabled + label::before {
+        $background-color: darkgrey;
+        box-shadow: 0 0 3px 3px $background-color;
+        background-color: $background-color;
+    }
+    &:checked + label::before {
+        content: "\2713";
+    }
+    &:active + label::before {
+        background-color: gray;
+    }
 }
 
 @mixin chip {
-  border: 1px solid gray;
-  padding: 0 0.4em;
-  border-radius: 0.5em;
-  box-shadow: 0 0 2px 2px lightgray;
-  font-style: italic;
+    border: 1px solid gray;
+    padding: 0 0.4em;
+    border-radius: 0.5em;
+    box-shadow: 0 0 2px 2px lightgray;
+    font-style: italic;
+}
+
+@mixin menubar {
+    display: flex;
+    justify-content: space-between;
+    background: linear-gradient(to bottom, white, rgb(220, 220, 220));
+    padding: 0 0.5em;
+}
+
+@mixin menubar-item {
+    padding: 0.2em 0.5em;
+    background: unset;
+    border: unset;
+    font-size: 1rem;
+    font-family: sans-serif;
+
+    $shadow: 0 0 4px rgb(120, 120, 120);
+
+    &:hover {
+        box-shadow: $shadow;
+        cursor: pointer;
+    }
+
+    &:active {
+        box-shadow: inset $shadow;
+    }
 }

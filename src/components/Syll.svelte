@@ -1,4 +1,6 @@
 <script>
+    import {settings} from "../stores/stores.js";
+
     export let type;
     export let errored = false;
 </script>
@@ -19,7 +21,9 @@
     @each $type, $color in $hece-colors {
         span.#{$type} {
             background-color: $color;
-            //text-decoration: map-get($hece-decorations, $type);
+            &.decorated {
+                text-decoration: map-get($hece-decorations, $type);
+            }
         }
     }
 
@@ -28,6 +32,6 @@
     }
 </style>
 
-<span class="t{type}" class:errored={errored}>
+<span class="t{type}" class:errored={errored} class:decorated={$settings.renderSyllsWithDecorations}>
     <slot/>
 </span>

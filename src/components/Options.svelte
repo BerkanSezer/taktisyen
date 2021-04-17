@@ -1,6 +1,6 @@
 <script>
     import {fileData} from "../stores/fileData.js";
-    import {page} from "../stores/activePage.js";
+    import {page} from "../stores/stores.js";
 </script>
 
 <style lang="scss">

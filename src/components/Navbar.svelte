@@ -1,32 +1,54 @@
 <script>
+    import {page} from "../stores/stores.js";
     import {fileData} from "../stores/fileData.js";
-    import {page} from "../stores/activePage.js";
+
+    let fileMenuActivated = false;
 </script>
 
 <style lang="scss">
+    @import "src/shared/scss/mixins.scss";
+
     nav {
-        display: flex;
-        justify-content: space-between;
-        background: linear-gradient(to bottom, white, rgb(220, 220, 220));
-        padding: 0 0.5em;
-    }
+        @include menubar;
 
-    button, a {
-        padding: 0.2em 0.5em;
-        background: unset;
-        border: unset;
-        font-size: 1rem;
-        font-family: sans-serif;
-
-        $shadow: 0 0 4px rgb(120, 120, 120);
-
-        &:hover {
-            box-shadow: $shadow;
-            cursor: pointer;
+        & > button, a {
+            @include menubar-item;
         }
 
-        &:active {
-            box-shadow: inset $shadow;
+        & > div {
+            @include menubar-item;
+
+            &::before {
+                content: attr(data-title);
+            }
+
+            & > div {
+                display: none;
+            }
+
+            &.activate > div {
+                position: absolute;
+                left: 0.5em;
+                top: 1.5em;
+
+                display: flex;
+                flex-direction: column;
+                width: 10em;
+
+                border: 2px outset lightgray;
+
+                & > button {
+                    height: 2em;
+                    padding-left: 2em;
+                    border: none;
+                    cursor: pointer;
+                    text-align: left;
+
+                    &:hover {
+                        background-color: #91C9F7;
+                    }
+                }
+            }
         }
     }
 
@@ -36,9 +58,15 @@
 </style>
 
 <nav>
-    <button on:click={fileData.promptNew}>Yeni</button>
-    <button on:click={fileData.promptSave}>Kaydet...</button>
-    <button on:click={fileData.promptLoad}>Aç...</button>
-    <button on:click={() => {$page = "options";}}>Seçenekler...</button>
+    <div data-title="Dosya" class:activate={fileMenuActivated} on:click={() => fileMenuActivated = !fileMenuActivated}>
+        <div>
+            <button on:click={fileData.promptNew}>Yeni</button>
+            <button on:click={fileData.promptSave}>Kaydet...</button>
+            <button on:click={fileData.promptLoad}>Aç...</button>
+        </div>
+    </div>
+    <button on:click={() => {$page = "analyzer";}}>Analizci</button>
+    <button on:click={() => {$page = "options";}}>Seçenekler</button>
+    <button on:click={() => {$page = "settings";}}>Ayarlar</button>
     <span class="spacer"></span>
 </nav>
