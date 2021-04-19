@@ -1,6 +1,7 @@
 <script>
     import {page} from "../stores/stores.js";
     import {fileData} from "../stores/fileData.js";
+    import {dictionary} from "../stores/dictionary.js";
 
     let fileMenuActivated = false;
 </script>
@@ -72,7 +73,7 @@
     </div>
     <span class="separator"></span>
     <button on:click={() => {$page = "analyzer";}}>Analizci</button>
-    <button on:click={() => {$page = "dictionary";}} disabled>Sözlük</button>
+    <button on:click={() => {$page = "dictionary";}}>Sözlük</button>
     <button on:click={() => {$page = "options";}}>Seçenekler</button>
     <button on:click={() => {$page = "settings";}}>Ayarlar</button>
     <button on:click={() => {$page = "about";}}>Hakkında</button>
