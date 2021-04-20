@@ -1,4 +1,4 @@
-[taktisyen]: https://taktisyen.vercel.app/
+[taktisyen]: https://taktisyen.tk/
 
 # [taktisyen]
 Taktisyen: Syllabication and analysis of Turkish poems written in aruz prosody.
@@ -17,19 +17,16 @@ so much more very easily!
 
 ## Building
 
-The recommended way to install is via npm and grunt.
+Issue these commands:
 
 ```bash
 $ git clone git@github.com:EmreOzcan/taktisyen.git
 $ cd taktisyen
 $ npm install
-$ npx grunt
+$ npm run build
 ```
 
-*(You can issue `$ npx grunt debug` instead of just `$ npx grunt` to skip the
-Babel step.)*
-
-The output files will be put under `/dist`.
+The output files will be put under `/public/build`.
 
 ## License
 
