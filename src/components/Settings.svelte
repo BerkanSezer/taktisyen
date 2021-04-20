@@ -13,7 +13,7 @@
         @include checkbox;
     }
 
-    h2, label {
+    h1, label {
         font-family: sans-serif;
     }
 
@@ -22,7 +22,7 @@
     }
 </style>
 
-<h2>Taktisyen Ayarları</h2>
+<h1>Taktisyen Ayarları</h1>
 
 <div>
     <input type="checkbox" id="syll-decorations" bind:checked={$settings.renderSyllsWithDecorations}>

@@ -28,7 +28,7 @@
         }
     }
 
-    label, h2 {
+    label, h1 {
         font-family: sans-serif;
     }
 
@@ -41,7 +41,7 @@
     }
 </style>
 
-<h2>Düzenlenen belgenin seçenekleri</h2>
+<h1>Düzenlenen belgenin seçenekleri</h1>
 
 <div>
     <input id="medli" type="checkbox" bind:checked={$fileData.meta.medli}>

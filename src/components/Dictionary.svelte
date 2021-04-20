@@ -185,7 +185,7 @@
 </script>
 
 <style lang="scss">
-    h2, p {
+    h1, p {
         font-family: sans-serif;
     }
 
@@ -199,7 +199,7 @@
     }
 </style>
 
-<h2>Sözlük</h2>
+<h1>Sözlük</h1>
 
 {#if $dictionary.status === "completed"}
 

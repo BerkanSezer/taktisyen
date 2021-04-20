@@ -1,11 +1,11 @@
 <script>
+    import {page} from "./stores/stores.js";
     import Analyzer from "./components/Analyzer.svelte";
     import Navbar from "./components/Navbar.svelte";
-    import {page} from "./stores/stores.js";
     import Options from "./components/Options.svelte";
     import Settings from "./components/Settings.svelte";
     import Dictionary from "./components/Dictionary.svelte";
-    import {dictionary} from "./stores/dictionary.js";
+    import About from "./components/About.svelte";
 </script>
 
 <style lang="scss">
@@ -24,5 +24,7 @@
         <Settings/>
     {:else if $page === "dictionary"}
         <Dictionary/>
+    {:else if $page === "about"}
+        <About/>
     {/if}
 </div>

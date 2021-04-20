@@ -11,6 +11,7 @@
 
     nav {
         @include menubar;
+        height: 1.5em;
 
         & > button, a {
             @include menubar-item;
@@ -51,6 +52,10 @@
                 }
             }
         }
+
+        & > img {
+            padding: 0.1em;
+        }
     }
 
     span.spacer {
@@ -78,4 +83,5 @@
     <button on:click={() => {$page = "settings";}}>Ayarlar</button>
     <button on:click={() => {$page = "about";}}>Hakkında</button>
     <span class="spacer"></span>
+    <img src="/favicon.png" alt="Taktisyen">
 </nav>
