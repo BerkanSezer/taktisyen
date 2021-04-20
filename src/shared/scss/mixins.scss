@@ -1,3 +1,5 @@
+$shadow: 0 0 4px rgb(120, 120, 120);
+
 @mixin text-input {
     border-radius: 5px;
     border: 2px groove lightgray;
@@ -75,8 +77,6 @@
     border: unset;
     font-size: 1rem;
     font-family: sans-serif;
-
-    $shadow: 0 0 4px rgb(120, 120, 120);
 
     &[disabled] {
         cursor: not-allowed !important;
