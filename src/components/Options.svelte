@@ -62,5 +62,3 @@
     <label for="filename">Dosya ismi</label>
     <input id="filename" type="text" bind:value={$fileData.filename}>
 </div>
-
-<button on:click={() => {$page = "analyzer"}}>Analizciye dön</button>

@@ -1,20 +1,21 @@
 <script>
-    import {dictionary} from "../stores/dictionary.js";
-    import Word from "./Word.svelte";
-    import {paginate, PaginationNav} from "svelte-paginate";
+    import {dictionary} from "../../stores/dictionary.js";
+    import {paginate} from "svelte-paginate";
     import Paginator from "./Paginator.svelte";
+    import Panel from "./Panel.svelte";
+    import Word from "./Word.svelte";
 
     let page = 1;
     let pageSize = 100;
 
     $: paginatedItems = paginate({items: $dictionary.filtered, pageSize: pageSize, currentPage: page});
+
+    function showPanel(word) {
+
+    }
 </script>
 
 <style lang="scss">
-    li {
-        cursor: help;
-    }
-
     ol {
         border-radius: 5px;
         border: 2px groove lightgray;
@@ -40,9 +41,10 @@
         <ol start={(page - 1)*pageSize + 1}>
             {#each paginatedItems as word}
                 <li>
-                    <Word word={word}/>
+                    <Word {word} show={paginatedItems.length === 1} />
                 </li>
             {/each}
         </ol>
     </div>
+
 </div>

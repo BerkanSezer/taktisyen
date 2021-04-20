@@ -1,6 +1,6 @@
 <script>
     import {createEventDispatcher} from "svelte";
-    import {valueEnums} from "../shared/js/dictionaryConstants.js";
+    import {valueEnums} from "../../shared/js/dictionaryConstants.js";
 
     const dispatch = createEventDispatcher();
 
@@ -26,7 +26,7 @@
 
     span.actions {
         padding: 0.3em;
-        border-right: 1px groove black;
+        border-right: 1px solid black;
     }
 </style>
 

@@ -1,7 +1,7 @@
 <script>
     import {dictionary} from "../stores/dictionary.js";
-    import Filter from "./Filter.svelte";
-    import WordList from "./WordList.svelte";
+    import Filter from "./dictionary/Filter.svelte";
+    import WordList from "./dictionary/WordList.svelte";
     import {restrictionFunctions, valueEnums} from "../shared/js/dictionaryConstants.js";
     import {onMount} from "svelte";
 
@@ -115,7 +115,6 @@
         for (const filter of filters) {
 
             if (!filter.enabled || filter.type === null) {
-                filter.enabled = false;
                 continue;
             }
 

@@ -28,5 +28,3 @@
     <input type="checkbox" id="syll-decorations" bind:checked={$settings.renderSyllsWithDecorations}>
     <label for="syll-decorations">Heceleri görsel süslemelerle göster</label>
 </div>
-
-<button on:click={() => {$page = "analyzer"}}>Analizciye dön</button>

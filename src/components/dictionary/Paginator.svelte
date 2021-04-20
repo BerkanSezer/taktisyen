@@ -9,7 +9,7 @@
 </script>
 
 <style lang="scss">
-    @import "src/shared/scss/mixins.scss";
+    @import "../../shared/scss/mixins";
 
     div {
         :global(.pagination-nav) {
