@@ -27,7 +27,7 @@
     <div>&copy; 2020, 2021 Emre Özcan</div>
 </div>
 
-<p>Taktisyen MIT Lisansı altında dağıtılabilir</p>
+<p>Taktisyen'in kaynak kodu MIT Lisansı altında dağıtılmaktadır</p>
 
 <div class="license">
     <h2>MIT License</h2>
@@ -57,5 +57,4 @@
         OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
         SOFTWARE.
     </p>
-
 </div>
