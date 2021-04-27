@@ -22,7 +22,7 @@
     "svelte": "^3.0.0",
     "svelte-paginate": "0.0.1",
     "svelte-preprocess-sass": "^1.0.0",
-    "taktisyen-sozluk": "git://git@github.com:EmreOzcan/sozluk.git#7b0c87a"
+    "taktisyen-sozluk": "git+https://github.com/EmreOzcan/sozluk.git#7b0c87a"
   },
   "dependencies": {
     "sirv-cli": "^1.0.0"
