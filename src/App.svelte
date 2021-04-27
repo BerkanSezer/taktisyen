@@ -4,7 +4,7 @@
     import Navbar from "./components/Navbar.svelte";
     import Options from "./components/Options.svelte";
     import Settings from "./components/Settings.svelte";
-    import Dictionary from "./components/Dictionary.svelte";
+    import Dictionary from "taktisyen-sozluk/src/Dictionary.svelte";
     import About from "./components/About.svelte";
 </script>
 

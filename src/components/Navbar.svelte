@@ -1,7 +1,6 @@
 <script>
     import {page} from "../stores/stores.js";
     import {fileData} from "../stores/fileData.js";
-    import {dictionary} from "../stores/dictionary.js";
 
     let fileMenuActivated = false;
 </script>
