@@ -1,6 +1,7 @@
-[taktisyen]: https://taktisyen.tk/
+[Taktisyen]: https://taktisyen.emreis.com/
+[Taktisyen Sözlük]: https://github.com/EmreOzcan/sozluk
 
-# [taktisyen]
+# [Taktisyen]
 Taktisyen: Syllabication and analysis of Turkish poems written in aruz prosody.
 
 Taktisyen is a project that aims to make writing poems with aruz prosody easier
@@ -9,19 +10,14 @@ see patterns that may be difficult to notice otherwise.
 
 ![Sample screenshot](images/sample_screenshot.png)
 
-Our dictionary can be used to find words that fill complicated conditions very
-easily. Users can filter words by syllables, origin language, tone of voice and
-so much more very easily!
-
-![Screenshot of our dictionary feature](images/dictionary_screenshot.png)
+[Taktisyen Sözlük] is used, so you can easily find words that fit the required
+pattern exactly.
 
 ## Building
 
-Issue these commands:
+Clone the repository and issue these commands:
 
 ```bash
-$ git clone git@github.com:EmreOzcan/taktisyen.git
-$ cd taktisyen
 $ npm install
 $ npm run build
 ```
@@ -30,6 +26,6 @@ The output files will be put under `/public/build`.
 
 ## License
 
-taktisyen's source code is provided under the [MIT License](./LICENSE).
+Taktisyen's source code is provided under the [MIT License](./LICENSE).
 
-Copyright © 2021 Emre Özcan
+Copyright © 2020, 2021 Emre Özcan

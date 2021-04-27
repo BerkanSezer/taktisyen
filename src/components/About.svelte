@@ -24,7 +24,7 @@
 
 <div class="information">
     <div><a href="https://github.com/EmreOzcan/taktisyen">Kaynak Kodu</a></div>
-    <div>&copy; 2021, 2021 Emre Özcan</div>
+    <div>&copy; 2020, 2021 Emre Özcan</div>
 </div>
 
 <p>Taktisyen MIT Lisansı altında dağıtılabilir</p>
