@@ -4,7 +4,6 @@
     import Navbar from "./components/Navbar.svelte";
     import Options from "./components/Options.svelte";
     import Settings from "./components/Settings.svelte";
-    import Dictionary from "taktisyen-sozluk/src/Dictionary.svelte";
     import About from "./components/About.svelte";
 </script>
 
@@ -22,8 +21,6 @@
         <Options/>
     {:else if $page === "settings"}
         <Settings/>
-    {:else if $page === "dictionary"}
-        <Dictionary/>
     {:else if $page === "about"}
         <About/>
     {/if}
