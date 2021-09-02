@@ -18,9 +18,11 @@
     }
 </style>
 
-<h1>Taktisyen Ayarları</h1>
+<main class="page-secment">
+    <h1>Taktisyen Ayarları</h1>
 
-<div>
-    <input type="checkbox" id="syll-decorations" bind:checked={$settings.renderSyllsWithDecorations}>
-    <label for="syll-decorations">Heceleri görsel süslemelerle göster</label>
-</div>
+    <div>
+        <input type="checkbox" id="syll-decorations" bind:checked={$settings.renderSyllsWithDecorations}>
+        <label for="syll-decorations">Heceleri görsel süslemelerle göster</label>
+    </div>
+</main>

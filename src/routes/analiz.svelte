@@ -112,42 +112,44 @@
     }
 </style>
 
-<div class="container">
-    <label for="kalip-input">Kalıp Örneği</label>
-    <input type="text"
-           id="kalip-input"
-           bind:value={$fileData.meta.pattern}
-           on:focusout={changePatternWithPreset}
-    >
+<main class="page-segment">
+    <div class="container">
+        <label for="kalip-input">Kalıp Örneği</label>
+        <input type="text"
+            id="kalip-input"
+            bind:value={$fileData.meta.pattern}
+            on:focusout={changePatternWithPreset}
+        >
 
-    <label for="kalip-output">Kalıp Analizi</label>
-    <div id="kalip-output">
-        {#if pattern.length > 0}
-            {#each pattern as patternSyll}
-                <Syll type={patternSyll.type}>{humanReadableSyllTypeLookupTable[patternSyll.type]}</Syll>
+        <label for="kalip-output">Kalıp Analizi</label>
+        <div id="kalip-output">
+            {#if pattern.length > 0}
+                {#each pattern as patternSyll}
+                    <Syll type={patternSyll.type}>{humanReadableSyllTypeLookupTable[patternSyll.type]}</Syll>
+                {/each}
+            {/if}
+        </div>
+
+        <label for="text-input">Metin Girişi</label>
+        <textarea
+                id="text-input"
+                placeholder="Bütün dünyâya küskündüm, dün akşam pek bunalmıştım..."
+                rows="5"
+                bind:value={$fileData.text}
+        ></textarea>
+
+        <label for="text-output">Metin Analizi</label>
+        <div id="text-output">
+            {#each sylledText as line}
+                {#each line as syllable, syllNumber}
+                    <Syll
+                            type={syllable.type}
+                            errored={pattern.length > syllNumber && syllable.type !== pattern[syllNumber].type}
+                    >{syllable.text}</Syll>
+                    <span class="separator"></span>
+                {/each}
+                <br/>
             {/each}
-        {/if}
+        </div>
     </div>
-
-    <label for="text-input">Metin Girişi</label>
-    <textarea
-            id="text-input"
-            placeholder="Bütün dünyâya küskündüm, dün akşam pek bunalmıştım..."
-            rows="5"
-            bind:value={$fileData.text}
-    ></textarea>
-
-    <label for="text-output">Metin Analizi</label>
-    <div id="text-output">
-        {#each sylledText as line}
-            {#each line as syllable, syllNumber}
-                <Syll
-                        type={syllable.type}
-                        errored={pattern.length > syllNumber && syllable.type !== pattern[syllNumber].type}
-                >{syllable.text}</Syll>
-                <span class="separator"></span>
-            {/each}
-            <br/>
-        {/each}
-    </div>
-</div>
+</main>

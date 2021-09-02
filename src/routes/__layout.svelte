@@ -6,6 +6,4 @@
 
 <Navbar />
 
-<div class="page-content">
-    <slot />
-</div>
+<slot />
