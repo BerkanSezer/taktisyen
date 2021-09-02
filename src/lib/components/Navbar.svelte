@@ -1,19 +1,22 @@
 <script>
-    import {page} from "../stores/stores.js";
-    import {fileData} from "../stores/fileData.js";
-
+    import {page} from "$lib/stores/stores.js";
+    import {fileData} from "$lib/stores/fileData.js";
+    
     let fileMenuActivated = false;
 </script>
 
 <style lang="scss">
-    @import "src/shared/scss/mixins.scss";
+    @import "../mixins.scss";
 
     nav {
         @include menubar;
         height: 1.5em;
 
-        & > button, a {
+        & button, a {
             @include menubar-item;
+
+            color: black;
+            text-decoration: none;
         }
 
         & > div {
@@ -44,6 +47,8 @@
                     border: none;
                     cursor: pointer;
                     text-align: left;
+
+                    background: #f0f0f0;
 
                     &:hover {
                         background-color: #91C9F7;
@@ -76,10 +81,10 @@
         </div>
     </div>
     <span class="separator"></span>
-    <button on:click={() => {$page = "analyzer";}}>Analizci</button>
-    <button on:click={() => {$page = "options";}}>Seçenekler</button>
-    <button on:click={() => {$page = "settings";}}>Ayarlar</button>
-    <button on:click={() => {$page = "about";}}>Hakkında</button>
+    <a href="/analiz">Analizci</a>
+    <a href="/secenekler">Seçenekler</a>
+    <a href="/ayarlar">Ayarlar</a>
+    <a href="/hakkinda">Hakkında</a>
     <span class="spacer"></span>
     <img src="/favicon.png" alt="Taktisyen">
 </nav>

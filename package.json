@@ -1,29 +1,22 @@
 {
   "name": "taktisyen",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Syllabication and analysis of Turkish poems written in aruz prosody.",
   "scripts": {
-    "build": "rollup -c",
-    "dev": "rollup -c -w",
-    "start": "sirv public --no-clear"
+    "dev": "svelte-kit dev",
+    "build": "svelte-kit build",
+    "preview": "svelte-kit preview"
   },
-  "author": "Emre Özcan",
-  "license": "MIT",
-  "private": true,
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^17.0.0",
-    "@rollup/plugin-node-resolve": "^11.0.0",
-    "node-sass": "^6.0.1",
-    "rollup": "^2.3.4",
-    "rollup-plugin-css-only": "^3.1.0",
-    "rollup-plugin-livereload": "^2.0.0",
-    "rollup-plugin-svelte": "^7.0.0",
-    "rollup-plugin-terser": "^7.0.0",
-    "svelte": "^3.0.0",
-    "svelte-paginate": "0.0.1",
-    "svelte-preprocess-sass": "^1.0.0"
+    "@sveltejs/adapter-static": "^1.0.0-next.0",
+    "@sveltejs/kit": "next",
+    "sass": "^1.38.2",
+    "svelte": "^3.34.0",
+    "svelte-preprocess": "^4.8.0"
   },
+  "type": "module",
   "dependencies": {
-    "sirv-cli": "^1.0.0"
+    "@lukeed/uuid": "^2.0.0",
+    "cookie": "^0.4.1"
   }
 }

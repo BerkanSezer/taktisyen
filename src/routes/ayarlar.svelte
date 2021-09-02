@@ -1,9 +1,9 @@
 <script>
-    import {page, settings} from "../stores/stores.js";
+    import {page, settings} from "$lib/stores/stores.js";
 </script>
 
 <style lang="scss">
-    @import "src/shared/scss/mixins.scss";
+    @import "../lib/mixins.scss";
 
     button {
         @include button;

@@ -8,11 +8,6 @@ Taktisyen is a project that aims to make writing poems with aruz prosody easier
 and more manageable. Taktisyen could also be used in schools to make students
 see patterns that may be difficult to notice otherwise.
 
-![Sample screenshot](images/sample_screenshot.png)
-
-[Taktisyen Sözlük] is used, so you can easily find words that fit the required
-pattern exactly.
-
 ## Building
 
 Clone the repository and issue these commands:

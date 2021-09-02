@@ -4,9 +4,9 @@
         getSyllType as _getSyllType,
         hecele as _hecele,
         humanReadableSyllTypeLookupTable
-    } from "../shared/js/hecele.js";
-    import Syll from "./Syll.svelte";
-    import {fileData} from "../stores/fileData.js";
+    } from "$lib/hecele.js";
+    import Syll from "$lib/components/Syll.svelte";
+    import {fileData} from "$lib/stores/fileData.js";
 
     const hecele = txt => _hecele(txt, $fileData.meta.stoppingCharacters)
     const getSyllType = (syll, ignoreOverride) => _getSyllType(
@@ -56,7 +56,7 @@
 </script>
 
 <style lang="scss">
-    @import "src/shared/scss/mixins";
+    @import "../lib/mixins.scss";
 
     .container {
         display: grid;

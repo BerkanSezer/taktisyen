@@ -1,10 +1,10 @@
 <script>
-    import {fileData} from "../stores/fileData.js";
-    import {page} from "../stores/stores.js";
+    import {fileData} from "$lib/stores/fileData.js";
+    import {page} from "$lib/stores/stores.js";
 </script>
 
 <style lang="scss">
-    @import "src/shared/scss/mixins.scss";
+    @import "../lib/mixins.scss";
 
     button {
         @include button;

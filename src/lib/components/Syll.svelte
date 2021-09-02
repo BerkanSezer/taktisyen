@@ -1,5 +1,5 @@
 <script>
-    import {settings} from "../stores/stores.js";
+    import {settings} from "$lib/stores/stores.js";
 
     export let type;
     export let errored = false;
