@@ -5,10 +5,6 @@
 <style lang="scss">
     @import "../lib/mixins.scss";
 
-    button {
-        @include button;
-    }
-
     input[type=checkbox] {
         @include checkbox;
     }

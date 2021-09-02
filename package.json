@@ -12,7 +12,8 @@
     "@sveltejs/kit": "next",
     "sass": "^1.38.2",
     "svelte": "^3.34.0",
-    "svelte-preprocess": "^4.8.0"
+    "svelte-preprocess": "^4.8.0",
+    "sveltedoc-parser": "^4.1.0"
   },
   "type": "module",
   "dependencies": {

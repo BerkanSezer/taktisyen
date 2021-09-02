@@ -80,7 +80,7 @@
         }
     }
 
-    textarea, #hidden-div {
+    textarea {
         resize: none;
         overflow: hidden;
     }
@@ -103,18 +103,12 @@
         box-shadow: inset 0 0 4px lightgray;
     }
 
-    *[id^="text"], #kalip-input, #hidden-div {
+    *[id^="text"], #kalip-input {
         font-family: serif;
     }
 
     label {
         font-family: sans-serif;
-    }
-
-    #hidden-div {
-        display: none;
-        white-space: pre-wrap;
-        word-wrap: break-word;
     }
 </style>
 
