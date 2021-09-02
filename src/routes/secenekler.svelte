@@ -1,3 +1,7 @@
+<script context="module">
+    export const prerender = true;
+</script>
+
 <script>
     import {fileData} from "$lib/stores/fileData.js";
     import {page} from "$lib/stores/stores.js";

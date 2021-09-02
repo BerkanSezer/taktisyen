@@ -1,3 +1,7 @@
+<script context="module">
+    export const prerender = true;
+</script>
+
 <style lang="scss">
     * {
         font-family: sans-serif;

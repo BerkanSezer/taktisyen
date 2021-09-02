@@ -1,3 +1,7 @@
+<script context="module">
+    export const prerender = true;
+</script>
+
 <script>
     import {page, settings} from "$lib/stores/stores.js";
 </script>
