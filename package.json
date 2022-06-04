@@ -8,16 +8,16 @@
     "preview": "svelte-kit preview"
   },
   "devDependencies": {
-    "@sveltejs/adapter-static": "^1.0.0-next.17",
-    "@sveltejs/kit": "next",
-    "sass": "^1.38.2",
-    "svelte": "^3.34.0",
-    "svelte-preprocess": "^4.8.0",
-    "sveltedoc-parser": "^4.1.0"
+    "@sveltejs/adapter-static": "1.0.0-next.17",
+    "@sveltejs/kit": "1.0.0-next.249",
+    "sass": "1.38.2",
+    "svelte": "3.44.0",
+    "svelte-preprocess": "4.8.0",
+    "sveltedoc-parser": "4.1.0"
   },
   "type": "module",
   "dependencies": {
-    "@lukeed/uuid": "^2.0.0",
-    "cookie": "^0.4.1"
+    "@lukeed/uuid": "2.0.0",
+    "cookie": "0.4.1"
   }
 }

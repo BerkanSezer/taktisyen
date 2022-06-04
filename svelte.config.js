@@ -1,18 +1,22 @@
 import preprocess from 'svelte-preprocess';
-import adapter from '@sveltejs/adapter-static';
+import adapt from '@sveltejs/adapter-static';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	kit: {
 		// hydrate the <div id="svelte"> element in src/app.html
 		target: '#svelte',
-		adapter: adapter({
+		adapter: adapt({
 			fallback: "404.html"
 		})
 	},
 	preprocess: preprocess({
 
-	})
+	}),
+
+	methodOverride: {
+		allowed: ['PUT', 'PATCH', 'DELETE']
+	}
 };
 
 export default config;
